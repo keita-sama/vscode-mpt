@@ -2,7 +2,17 @@
 // ! TODO: IF I GET TO THAT POINT, IMPLEMENT CUSTOM OUTFITS VIA 
 // CONFIG and OBJECT MERGING
 
-const sayori: Object = {
+/*
+
+How I'm gonna handle updating
+
+Write all this shit in typescript
+
+Use post message system to communicate (this allows users)
+to add custom stuff and gives me access to vscode api directly
+*/
+
+const sayori: any = {
     tap: {
         outfit: ['uniform', 'casual'],
         blush: ['nobl', 'awkw', 'blus', 'blaw'],
@@ -24,7 +34,8 @@ class Sayori {
         this.pose;
         this.state;
     }
-    changePose(pose: string)  {
-
+    changePose(pose: 'tap' | 'turned')  {
+        this.pose = sayori[pose];
+        
     }
 }
