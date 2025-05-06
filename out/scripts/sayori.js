@@ -2,6 +2,15 @@
 // ! TODO: IF I GET TO THAT POINT, IMPLEMENT CUSTOM OUTFITS VIA 
 // CONFIG and OBJECT MERGING
 Object.defineProperty(exports, "__esModule", { value: true });
+/*
+
+How I'm gonna handle updating
+
+Write all this shit in typescript
+
+Use post message system to communicate (this allows users)
+to add custom stuff and gives me access to vscode api directly
+*/
 const sayori = {
     tap: {
         outfit: ['uniform', 'casual'],
@@ -23,6 +32,7 @@ class Sayori {
         this.state;
     }
     changePose(pose) {
+        this.pose = sayori[pose];
     }
 }
 //# sourceMappingURL=sayori.js.map
