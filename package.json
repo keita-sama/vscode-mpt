@@ -28,8 +28,8 @@
     },
     "commands": [
       {
-        "command": "vscode-mpt.helloWorld",
-        "title": "Hello World"
+        "command": "vscode-mpt.preview-sayori",
+        "title": "Start Previewing: Sayori"
       }
     ]
   },

@@ -10,7 +10,7 @@ Use post message system to communicate (this allows users)
 to add custom stuff and gives me access to vscode api directly
 */
 
-type sayori = Record<string, Record<string, string[]>>;
+type sayori = Record<'tap' | 'turned', Record<string, string[]>>;
 
 const sayoriProperties: sayori = {
     tap: {
@@ -86,19 +86,22 @@ const sayoriProperties: sayori = {
 };
 
 class Sayori {
-    pose: Record<string, string[]>;
+    currentPose: string;
+    poseItems: Record<string, string[]>;
     state: Record<string, string>;
 
     constructor() {
-        this.pose = {};
+        this.currentPose = '';
+        this.poseItems = {};
         this.state = {};
     }
     changePose(pose: 'tap' | 'turned') {
-        this.pose = sayoriProperties[pose];
+        this.currentPose = pose;
+        this.poseItems = sayoriProperties[pose];
         this.state = {};
 
-        Object.keys(this.pose).forEach((key) => {
-            this.state[key] = this.pose[key][0];
+        Object.keys(this.poseItems).forEach((key) => {
+            this.state[key] = this.poseItems[key][0];
         });
 
         return this;
@@ -107,5 +110,16 @@ class Sayori {
         // Attr can almost never be wrong, except maybe if the images doesn't exist, but that's on the user.
         // NOTE: Maybe write validation?
         this.state[group] = attr;
+    }
+}
+
+// CHANGE OF PLANS -> write render functions inside the script instead.
+
+function sayoriRenderer(sayori: Sayori): any {
+    if (sayori.currentPose === 'tap') {
+        // Setup Body Container Div
+
+        // Body -> Blush -> Mouth -> Eyes -> Eyebrows
+        
     }
 }
