@@ -1,6 +1,7 @@
 "use strict";
 // TODO: if i get there, implement custom outfits/attributes via json
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Sayori = void 0;
 const sayoriProperties = {
     tap: {
         outfit: ['uniform', 'casual'],
@@ -97,6 +98,7 @@ class Sayori {
         this.state[group] = attr;
     }
 }
+exports.Sayori = Sayori;
 // CHANGE OF PLANS -> write render functions inside the script instead.
 function sayoriRenderer(sayori) {
     if (sayori.currentPose === 'tap') {

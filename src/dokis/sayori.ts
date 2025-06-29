@@ -85,7 +85,7 @@ const sayoriProperties: sayori = {
     },
 };
 
-class Sayori {
+export class Sayori {
     currentPose: string;
     poseItems: Record<string, string[]>;
     state: Record<string, string>;
