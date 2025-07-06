@@ -1,18 +1,5 @@
 const vscode = acquireVsCodeApi();
 
-window.addEventListener('message', (event) => {
-    const message = event.data;
-    if (message.command === 'update_state') {
-        window.state = JSON.parse(message.data);
-    }
-});
-
-function getState() {
-    vscode.postMessage({ command: 'fetch_state' });
-
-    console.log(window.state);
-}
-
 function changePose() {
     let newPose = document.getElementById('pose-select').value;
     vscode.postMessage({
@@ -41,17 +28,35 @@ function createDropdown(category, assets) {
     return dropdown;
 }
 
-function createPoseOptions() {
-    getState();
-    console.log(window.state);
-    const poseOptionContainer = document.getElementById('pose-options');
-    // console.log(poseOptionContainer, 'This is the value of the pose option container');
-    // 1. Reset pose options;
-    poseOptionContainer.innerHTML = '';
+// getState().then(console.log);
 
-    for (const [category, assets] of state.poseItems) {
-        poseOptionContainer.appendChild(createDropdown(category, assets));
-    }
+function getState() {
+    return new Promise((resolve) => {
+        vscode.postMessage({ command: 'fetch_state' });
+        window.addEventListener(
+            'message',
+            (event) => {
+                const message = event.data;
+                if (message.command === 'update_state') {
+                    const parsed = JSON.parse(message.data);
+                    resolve(parsed);
+                }
+            },
+            { once: true }
+        );
+    });
+}
+
+function createPoseOptions() {
+    getState().then((state) => {
+        console.log(state);
+        const poseOptionContainer = document.getElementById('pose-options');
+        poseOptionContainer.innerHTML = '';
+
+        for (const [category, assets] of Object.entries(state.poseItems)) {
+            poseOptionContainer.appendChild(createDropdown(category, assets));
+        }
+    });
 }
 
 createPoseOptions();

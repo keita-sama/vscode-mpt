@@ -43,7 +43,7 @@ exports.deactivate = deactivate;
 const path_1 = __importDefault(require("path"));
 const vscode = __importStar(require("vscode"));
 const fs_1 = __importDefault(require("fs"));
-const Sayori_1 = require("./panels/Sayori");
+const SayoriPreviewPanel_1 = require("./panels/SayoriPreviewPanel");
 function activate(context) {
     let foundMPTInstallation = false;
     let mptInstallationPath = '';
@@ -82,7 +82,7 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const disposable = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => Sayori_1.SayoriPreviewPanel.render(context.extensionUri));
+    const disposable = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreviewPanel_1.SayoriPreviewPanel.render(context.extensionUri));
     context.subscriptions.push(disposable);
 }
 // This method is called when your extension is deactivated

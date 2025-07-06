@@ -65,12 +65,10 @@ export class SayoriPreviewPanel {
 
     public dispose() {
         SayoriPreviewPanel.currentPanel = undefined;
-
         this._panel.dispose();
 
         while (this._disposables.length) {
             const disposable = this._disposables.pop();
-
             if (disposable) {
                 disposable.dispose();
             }
@@ -98,7 +96,7 @@ export class SayoriPreviewPanel {
         <body>
             
             <h1>Hi</h1>
-            <vscode-single-select id="pose-select" onchange="changePose();">
+            <vscode-single-select id="pose-select" onchange="changePose(); createPoseOptions();">
                 <vscode-option selected value="turned">turned</vscode-option>
                 <vscode-option value="tap">tap</vscode-option>
             </vscode-single-select>

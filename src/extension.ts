@@ -4,7 +4,7 @@ import path from 'path';
 import * as vscode from 'vscode';
 import fs from 'fs';
 
-import { SayoriPreviewPanel } from './panels/Sayori';
+import { SayoriPreviewPanel } from './panels/SayoriPreviewPanel';
 
 export function activate(context: vscode.ExtensionContext) {
     let foundMPTInstallation = false;
