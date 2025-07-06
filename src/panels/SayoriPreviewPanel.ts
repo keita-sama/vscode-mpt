@@ -80,6 +80,7 @@ export class SayoriPreviewPanel {
         extensionUri: vscode.Uri
     ) {
         
+        const stylesUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/src/styles/sayori.css`))
         const scriptUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/src/scripts/sayori.js`));
         const elementsUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`));
 
@@ -90,12 +91,17 @@ export class SayoriPreviewPanel {
             <meta charset='UTF-8'>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Sayori</title>
-
+            <link rel="stylesheet" href="${stylesUri}">
             <script src="${elementsUri}" type="module"></script>
             </head>
+
+        <style>
+
+        </style>
         <body>
             
-            <h1>Hi</h1>
+            <h1 id='syntax'>sayori</h1>
+            
             <vscode-single-select id="pose-select" onchange="changePose(); createPoseOptions();">
                 <vscode-option selected value="turned">turned</vscode-option>
                 <vscode-option value="tap">tap</vscode-option>

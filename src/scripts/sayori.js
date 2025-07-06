@@ -9,8 +9,6 @@ function changePose() {
 }
 
 function createDropdown(category, assets) {
-    // console.log(category);
-    // console.log(assets);
     const dropdown = document.createElement('vscode-single-select');
     dropdown.id = 'character-attr'; // character attr
     dropdown.className = `${category}-select`; // For styling (maybe)
@@ -27,8 +25,6 @@ function createDropdown(category, assets) {
 
     return dropdown;
 }
-
-// getState().then(console.log);
 
 function getState() {
     return new Promise((resolve) => {
@@ -59,12 +55,5 @@ function createPoseOptions() {
     });
 }
 
-createPoseOptions();
-// function thing() {
-//     vscode.postMessage({
-//         command: 'print_state',
-//         text: 'mwahahaha im a genius',
-//     });
 
-//     console.log('this work!!');
-// }
+createPoseOptions();
