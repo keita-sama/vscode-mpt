@@ -32,6 +32,12 @@ export class SayoriPreviewPanel {
             else if (message.command === 'change_pose') {
                 this._state.changePose(message.data);
             }
+            else if (message.command === 'fetch_state') {
+                this._panel.webview.postMessage({
+                    command: 'update_state',
+                    data: JSON.stringify(this._state)
+                });
+            }
         });
     }
 
@@ -86,18 +92,20 @@ export class SayoriPreviewPanel {
             <meta charset='UTF-8'>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Sayori</title>
-            <script src="${scriptUri}"></script>
-        </head>
+
+            <script src="${elementsUri}" type="module"></script>
+            </head>
         <body>
-        <script src="${elementsUri}" type="module"></script>
-        
-        <h1>Hi</h1>
-        <vscode-single-select id="pose-select" onchange="changePose(); thing();">
-            <vscode-option selected value="turned">turned</vscode-option>
-            <vscode-option value="tap">tap</vscode-option>
-        </vscode-single-select>
+            
+            <h1>Hi</h1>
+            <vscode-single-select id="pose-select" onchange="changePose();">
+                <vscode-option selected value="turned">turned</vscode-option>
+                <vscode-option value="tap">tap</vscode-option>
+            </vscode-single-select>
+            <div id='pose-options'></div>
+
+            <script src="${scriptUri}"></script>
         </body>
-        
         </html>
         `;
     }

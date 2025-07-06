@@ -86,17 +86,20 @@ const sayoriProperties: sayori = {
 };
 
 export class Sayori {
-    currentPose: string;
+    pose: string;
     poseItems: Record<string, string[]>;
     state: Record<string, string>;
 
     constructor() {
-        this.currentPose = '';
+        this.pose = '';
         this.poseItems = {};
         this.state = {};
+
+        this.changePose('turned');
     }
+
     changePose(pose: 'tap' | 'turned') {
-        this.currentPose = pose;
+        this.pose = pose;
         this.poseItems = sayoriProperties[pose];
         this.state = {};
 
@@ -116,10 +119,8 @@ export class Sayori {
 // CHANGE OF PLANS -> write render functions inside the script instead.
 
 function sayoriRenderer(sayori: Sayori): any {
-    if (sayori.currentPose === 'tap') {
+    if (sayori.pose === 'tap') {
         // Setup Body Container Div
-
         // Body -> Blush -> Mouth -> Eyes -> Eyebrows
-        
     }
 }
