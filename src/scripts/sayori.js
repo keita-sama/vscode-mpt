@@ -1,5 +1,11 @@
 const vscode = acquireVsCodeApi();
 
+function copySyntax() {
+    const text = document.getElementById('syntax').innerHTML;
+    vscode.env.clipboard.writeText(message.data);
+    vscode.window.showInformationMessage('Pose copied successfully');
+}
+
 function changePose() {
     let newPose = document.getElementById('pose-select').value;
     vscode.postMessage({
@@ -54,6 +60,5 @@ function createPoseOptions() {
         }
     });
 }
-
 
 createPoseOptions();

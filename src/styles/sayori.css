@@ -1,8 +1,23 @@
-#pose-options {
+
+/* SYNTAX RELATED STYLES */
+.syntax-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.syntax-copy-button {
+    /* padding: 0px 0.5rem; */
+    background-color: transparent;
+    outline: none;
+}
+
+/* POSE SECTION RELATED STLES */
+
+.pose-options {
     display: flex;
 }
 
-#pose-select {
+.pose-select {
     width: 100%
 }
             
