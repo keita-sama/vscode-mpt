@@ -2,9 +2,16 @@ const vscode = acquireVsCodeApi();
 
 function copySyntax() {
     const text = document.getElementById('syntax').innerHTML;
-    vscode.env.clipboard.writeText(message.data);
-    vscode.window.showInformationMessage('Pose copied successfully');
+
+    vscode.postMessage({
+        command: 'copy_pose',
+        data: text
+    });
 }
+
+// function resetSyntax(pose) {
+//     document.getElementById('syntax').innerHTML = `sayori ${pose}`;
+// }
 
 function changePose() {
     let newPose = document.getElementById('pose-select').value;
@@ -12,6 +19,8 @@ function changePose() {
         command: 'change_pose',
         data: newPose,
     });
+
+    // resetSyntax(newPose);
 }
 
 function createDropdown(category, assets) {

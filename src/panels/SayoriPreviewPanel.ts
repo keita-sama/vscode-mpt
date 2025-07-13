@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-// import { getUri } from "../utilities/getUri";
-import * as fs from 'fs';
 
 import { Sayori as SayoriState } from '../dokis/sayori';
 
@@ -13,10 +11,10 @@ export class SayoriPreviewPanel {
 
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
         this._state = new SayoriState();
-        
+
         // this._extensionUri = extensionUri;
         this._panel = panel;
-        
+
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
         this._panel.webview.html = this._getWebviewContent(
             this._panel.webview,
@@ -24,19 +22,24 @@ export class SayoriPreviewPanel {
         );
 
         this._panel.webview.onDidReceiveMessage((message) => {
-            if (message.command === 'print_state') {
-                console.log(this._state);
-            }
-            // ! TODO: EXPIREMENT WITH panel.postMessage()
-            // you can send JSON data back to update state and shit.
-            else if (message.command === 'change_pose') {
-                this._state.changePose(message.data);
-            }
-            else if (message.command === 'fetch_state') {
-                this._panel.webview.postMessage({
-                    command: 'update_state',
-                    data: JSON.stringify(this._state)
-                });
+            switch (message.command) {
+                case 'print_state':
+                    console.log(this._state);
+                    break;
+                case 'fetch_state':
+                    this._panel.webview.postMessage({
+                        command: 'update_state',
+                        data: JSON.stringify(this._state),
+                    });
+                    break;
+                case 'change_pose':
+                    this._state.changePose(message.data);
+                    break;
+                case 'copy_pose':
+                    vscode.env.clipboard.writeText(message.data).then(() => {
+                        vscode.window.showInformationMessage('Pose copied!');
+                    });
+                    break;
             }
         });
     }
@@ -79,12 +82,23 @@ export class SayoriPreviewPanel {
         webview: vscode.Webview,
         extensionUri: vscode.Uri
     ) {
-        
-        const codiconsUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`));
-        const elementsUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`));
+        const codiconsUri = webview.asWebviewUri(
+            vscode.Uri.parse(
+                `${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`
+            )
+        );
+        const elementsUri = webview.asWebviewUri(
+            vscode.Uri.parse(
+                `${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`
+            )
+        );
 
-        const stylesUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/src/styles/sayori.css`));
-        const scriptUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/src/scripts/sayori.js`));
+        const stylesUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/src/styles/sayori.css`)
+        );
+        const scriptUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/src/scripts/sayori.js`)
+        );
 
         return /*html*/ `
         <!DOCTYPE html>
