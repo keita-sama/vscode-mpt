@@ -14,7 +14,11 @@
 /* POSE SECTION RELATED STLES */
 
 .pose-options {
-    display: flex;
+    padding: 0px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    justify-content: space-between;
 }
 
 .pose-select {

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import { Sayori as SayoriState } from '../dokis/sayori';
+import { SayoriState } from '../dokis/SayoriState';
 
 export class SayoriPreviewPanel {
     public static currentPanel: SayoriPreviewPanel | undefined;
@@ -31,6 +31,10 @@ export class SayoriPreviewPanel {
                         command: 'update_state',
                         data: JSON.stringify(this._state),
                     });
+                    break;
+                case 'update_pose':
+                    const { group, attr } = message.data;
+                    this._state.updateAttribute(group, attr);
                     break;
                 case 'change_pose':
                     this._state.changePose(message.data);
@@ -118,9 +122,8 @@ export class SayoriPreviewPanel {
 
         </style>
         <body>
-            
             <div id='syntax-container' class='syntax-container'>
-                <vscode-button icon='copy' class='syntax-copy-button' onclick='console.log("something!"); copySyntax();'></vscode-button>
+                <vscode-button icon='copy' class='syntax-copy-button' onclick='copySyntax();'></vscode-button>
                 <h3 id='syntax'>sayori</h3>
             </div>
             

@@ -85,7 +85,7 @@ const sayoriProperties: sayori = {
     },
 };
 
-export class Sayori {
+export class SayoriState {
     pose: string;
     poseItems: Record<string, string[]>;
     state: Record<string, string>;
@@ -118,7 +118,7 @@ export class Sayori {
 
 // CHANGE OF PLANS -> write render functions inside the script instead.
 
-function sayoriRenderer(sayori: Sayori): any {
+function sayoriRenderer(sayori: SayoriState): any {
     if (sayori.pose === 'tap') {
         // Setup Body Container Div
         // Body -> Blush -> Mouth -> Eyes -> Eyebrows
