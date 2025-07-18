@@ -6,13 +6,10 @@ export class SayoriPreviewPanel {
     public static currentPanel: SayoriPreviewPanel | undefined;
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
-    // private _extensionUri: vscode.Uri;
     private _state: SayoriState;
 
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
         this._state = new SayoriState();
-
-        // this._extensionUri = extensionUri;
         this._panel = panel;
 
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -42,6 +39,20 @@ export class SayoriPreviewPanel {
                 case 'copy_pose':
                     vscode.env.clipboard.writeText(message.data).then(() => {
                         vscode.window.showInformationMessage('Pose copied!');
+                    });
+                    break;
+                case 'image_path':
+                    this._panel.webview.postMessage({
+                        command: 'return_image_path',
+                        data: this._panel.webview
+                            .asWebviewUri(
+                                vscode.Uri.file(
+                                    vscode.workspace.getConfiguration(
+                                        'vscode-mpt'
+                                    ).workingMPTPath + '/sayori'
+                                )
+                            )
+                            .toString(),
                     });
                     break;
             }
@@ -126,7 +137,7 @@ export class SayoriPreviewPanel {
                 <vscode-button icon='copy' class='syntax-copy-button' onclick='copySyntax();'></vscode-button>
                 <h3 id='syntax'>sayori</h3>
             </div>
-            
+            <div id='render-container' class='layered'></div>
             <vscode-single-select id="pose-select" class='pose-select' onchange="changePose(); createPoseOptions();">
                 <vscode-option selected value="turned">turned</vscode-option>
                 <vscode-option value="tap">tap</vscode-option>

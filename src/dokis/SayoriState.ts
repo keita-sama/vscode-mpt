@@ -115,12 +115,3 @@ export class SayoriState {
         this.state[group] = attr;
     }
 }
-
-// CHANGE OF PLANS -> write render functions inside the script instead.
-
-function sayoriRenderer(sayori: SayoriState): any {
-    if (sayori.pose === 'tap') {
-        // Setup Body Container Div
-        // Body -> Blush -> Mouth -> Eyes -> Eyebrows
-    }
-}
