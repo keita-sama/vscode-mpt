@@ -1,13 +1,30 @@
 const vscode = acquireVsCodeApi();
 
-let ASSET_URI;
+let lastCopiedSyntax = [];
 
 function copySyntax() {
-    const text = document.getElementById('syntax').innerHTML;
+    let textToCopy = (document.getElementById('syntax').innerHTML).split(' ');
+
+    if (!lastCopiedSyntax.length) {
+        lastCopiedSyntax = textToCopy ;
+    }
+    else {
+        let temp = [];
+
+        textToCopy.forEach((attr) => {
+            if (!lastCopiedSyntax.includes(attr)) {
+                temp.push(attr);
+            }
+        });
+
+        console.log(textToCopy, temp, lastCopiedSyntax);
+        lastCopiedSyntax = textToCopy;
+        textToCopy = temp;
+    }
 
     vscode.postMessage({
         command: 'copy_pose',
-        data: text,
+        data: textToCopy.join(' '),
     });
 }
 
@@ -48,6 +65,9 @@ function updatePose(updatedGroup, updatedAttr) {
 
 function changePose() {
     const newPose = document.getElementById('pose-select').value;
+
+    // Reset this
+    lastCopiedSyntax = [];
 
     vscode.postMessage({
         command: 'change_pose',
