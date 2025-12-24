@@ -96,6 +96,7 @@ export class SayoriState {
         this.state = {};
 
         this.changePose('turned');
+        // this.updateAttribute('outfit', 'uniform');
     }
 
     changePose(pose: 'tap' | 'turned') {

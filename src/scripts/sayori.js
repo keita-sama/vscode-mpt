@@ -1,14 +1,15 @@
 const vscode = acquireVsCodeApi();
 
 let lastCopiedSyntax = [];
+let ASSET_URI = '';
+getAssetUri().then((uri) => (ASSET_URI = uri));
 
 function copySyntax() {
-    let textToCopy = (document.getElementById('syntax').innerHTML).split(' ');
+    let textToCopy = document.getElementById('syntax').innerHTML.split(' ');
 
     if (!lastCopiedSyntax.length) {
-        lastCopiedSyntax = textToCopy ;
-    }
-    else {
+        lastCopiedSyntax = textToCopy;
+    } else {
         let temp = [];
 
         textToCopy.forEach((attr) => {
@@ -75,6 +76,7 @@ function changePose() {
     });
 
     generateSyntax();
+    render();
 }
 
 function createDropdown(category, assets) {
@@ -85,6 +87,7 @@ function createDropdown(category, assets) {
     dropdown.onchange = function () {
         updatePose(this.id, this.value);
         generateSyntax();
+        render();
     };
 
     dropdown.addEventListener('wheel', (ev) => {
@@ -147,10 +150,79 @@ function createPoseOptions() {
     });
 }
 
+function getAsset(asset) {
+    return `${ASSET_URI}/sayori_${asset}.png`;
+}
+
 createPoseOptions();
 generateSyntax();
 
-async function renderCharacter() {}
+function createImg(path) {
+    const img = document.createElement('img');
+    img.src = getAsset(path);
+
+    return img;
+}
+
+async function render() {
+    const armMap = {
+        rup: 'up',
+        lup: 'up',
+        rdown: 'down',
+        ldown: 'down',
+    };
+
+    const noseMap = {
+        nobl: 'n1',
+        awkw: 'n2',
+        blus: 'n3',
+        blaw: 'n4'
+    }
+
+    const sayori = await getState();
+    const uri = await getAssetUri();
+
+    const body = document.getElementById('render-container');
+    const items = [];
+
+    const { outfit, nose, blush, mouth, eyes, eyebrows } = sayori.state;
+
+    if (sayori.pose === 'tap') {
+        items.push(createImg(`tapping_${outfit}_bodybase`));
+        items.push(createImg('tapping_facebase'));
+        // console.log(noseMap[nose], nose);
+        items.push(createImg(`tapping_nose_${noseMap[blush]}`)); // CREATE CONSISTENCY <-- REMOVE BLUSH, MAKE IT "NOSE"
+        items.push(createImg(`tapping_mouth_${mouth}`));
+        items.push(createImg(`tapping_eyes_${eyes}`));
+        items.push(createImg(`tapping_eyebrows_${eyebrows}`));
+    } else if (sayori.pose === 'turned') {
+        const { left, right } = sayori.state;
+
+        items.push(createImg('turned_facebase'));
+
+        items.push(createImg(`turned_${outfit}_left_${armMap[left]}`));
+        items.push(createImg(`turned_${outfit}_right_${armMap[right]}`));
+
+        items.push(createImg(`turned_nose_${noseMap[nose]}`));
+        items.push(createImg(`turned_mouth_${mouth}`));
+        items.push(createImg(`turned_eyes_${eyes}`));
+        items.push(createImg(`turned_eyebrows_${eyebrows}`));
+    }
+
+    
+    // bodybase or left arm/rightarm
+    // facebase
+
+    // nose
+    // mouth
+    // eyes
+    // eyebrows
+    body.innerHTML = '';
+    items.forEach((thing) => {
+        body.appendChild(thing);
+    });
+}
+
 // UGLY TERSTING P{LEASE DON"T LOOK
 function getAssetUri() {
     vscode.postMessage({ command: 'image_path' });
@@ -164,18 +236,20 @@ function getAssetUri() {
     });
 }
 
-getAssetUri().then((uri) => {
-    const body = document.getElementById('render-container');
-    const img = document.createElement('img');
-    img.src = uri + encodeURIComponent('/sayori_turned_casual_left_down.png');
+render();
 
-    const img2 = document.createElement('img');
-    img2.src = uri + encodeURIComponent('/sayori_turned_casual_right_down.png');
+// getAssetUri().then((uri) => {
+//     const body = document.getElementById('render-container');
+//     const img = document.createElement('img');
+//     img.src = getAsset('turned_casual_left_down');
 
-    const img3 = document.createElement('img');
-    img3.src = uri + encodeURIComponent('/sayori_turned_facebase.png');
+//     const img2 = document.createElement('img');
+//     img2.src = uri + encodeURIComponent('/sayori_turned_casual_right_down.png');
 
-    body.appendChild(img);
-    body.appendChild(img2);
-    body.appendChild(img3);
-});
+//     const img3 = document.createElement('img');
+//     img3.src = uri + encodeURIComponent('/sayori_turned_facebase.png');
+
+//     body.appendChild(img);
+//     body.appendChild(img2);
+//     body.appendChild(img3);
+// });
