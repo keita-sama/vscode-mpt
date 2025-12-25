@@ -108,6 +108,7 @@ function createDropdown(category, assets) {
 
         dropdown.onchange();
     });
+
     assets.forEach((asset, index) => {
         const optionElement = document.createElement('vscode-option');
         optionElement.value = asset;
@@ -141,11 +142,31 @@ function getState() {
 function createPoseOptions() {
     getState().then((state) => {
         console.log(state);
+
+        
+
         const poseOptionContainer = document.getElementById('pose-options');
         poseOptionContainer.innerHTML = '';
 
         for (const [category, assets] of Object.entries(state.poseItems)) {
-            poseOptionContainer.appendChild(createDropdown(category, assets));
+            const optionContainer = document.createElement('div');
+            
+            const leftButton = document.createElement('vscode-button');
+            const rightButton = document.createElement('vscode-button');
+
+            leftButton.icon = 'chevron-left';
+            rightButton.icon = 'chevron-right';
+
+            leftButton.setAttribute('secondary', '');
+            rightButton.setAttribute('secondary', '');
+            leftButton.id = `left-${category}`;
+            rightButton.id = `right-${category}`;
+
+            optionContainer.appendChild(leftButton);
+            optionContainer.appendChild(createDropdown(category, assets));
+            optionContainer.appendChild(rightButton);
+
+            poseOptionContainer.appendChild(optionContainer);
         }
     });
 }
@@ -176,8 +197,8 @@ async function render() {
         nobl: 'n1',
         awkw: 'n2',
         blus: 'n3',
-        blaw: 'n4'
-    }
+        blaw: 'n4',
+    };
 
     const sayori = await getState();
     const uri = await getAssetUri();
@@ -209,7 +230,6 @@ async function render() {
         items.push(createImg(`turned_eyebrows_${eyebrows}`));
     }
 
-    
     // bodybase or left arm/rightarm
     // facebase
 

@@ -6,19 +6,34 @@
 }
 
 .syntax-copy-button {
+    aspect-ratio: 1/1;
     /* padding: 0px 0.5rem; */
-    background-color: transparent;
-    outline: none;
+    /* background-color: transparent;
+    outline: none; */
 }
 
 /* POSE SECTION RELATED STLES */
 
+.pose-option-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+
+    vscode-button {
+        width: 100%;
+        /* margin: 5px */
+    }
+}
 .pose-options {
     padding: 0px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+    /* width: 100%; */
+    /* display: grid; */
+    /* grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); */
+    /* justify-content: space-between; */
 }
 
 .pose-select {

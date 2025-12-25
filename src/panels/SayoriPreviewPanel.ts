@@ -134,14 +134,19 @@ export class SayoriPreviewPanel {
         </style>
         <body>
             <div id='syntax-container' class='syntax-container'>
-                <vscode-button icon='copy' class='syntax-copy-button' onclick='copySyntax();'></vscode-button>
+                <vscode-button icon='copy' class='syntax-copy-button' secondary onclick='copySyntax();'></vscode-button>
                 <h3 id='syntax'>sayori</h3>
             </div>
             <div id='render-container' class='layered'></div>
             <vscode-single-select id="pose-select" class='pose-select' onchange="changePose(); createPoseOptions();">
                 <vscode-option selected value="turned">turned</vscode-option>
-                <vscode-option value="tap">tap</vscode-option>
+                 <vscode-option value="tap">tap</vscode-option>
             </vscode-single-select>
+            <br>
+            <div class='pose-option-buttons'>
+                <vscode-button>turned</vscode-button>
+                <vscode-button>tap</vscode-button>
+            </div>
             <div id='pose-options' class='pose-options'></div>
 
             <script src="${scriptUri}"></script>
