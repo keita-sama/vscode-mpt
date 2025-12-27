@@ -1,15 +1,11 @@
 import * as vscode from 'vscode';
 
-// import { SayoriState } from '../dokis/SayoriState';
-
 export class SayoriPreviewPanel {
     public static currentPanel: SayoriPreviewPanel | undefined;
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
-    // private _state: SayoriState;
 
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-        // this._state = new SayoriState();
         this._panel = panel;
 
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -20,22 +16,6 @@ export class SayoriPreviewPanel {
 
         this._panel.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
-                // case 'print_state':
-                //     console.log(this._state);
-                //     break;
-                // case 'fetch_state':
-                //     this._panel.webview.postMessage({
-                //         command: 'update_state',
-                //         data: JSON.stringify(this._state),
-                //     });
-                //     break;
-                // case 'update_pose':
-                //     const { group, attr } = message.data;
-                //     this._state.updateAttribute(group, attr);
-                //     break;
-                // case 'change_pose':
-                //     this._state.changePose(message.data);
-                //     break;
                 case 'copy_pose':
                     vscode.env.clipboard.writeText(message.data).then(() => {
                         vscode.window.showInformationMessage('Pose copied!');
@@ -109,7 +89,7 @@ export class SayoriPreviewPanel {
         );
 
         const stylesUri = webview.asWebviewUri(
-            vscode.Uri.parse(`${extensionUri}/src/styles/sayori.css`)
+            vscode.Uri.parse(`${extensionUri}/src/styles/previewer.css`)
         );
 
         const stateUri = webview.asWebviewUri(
@@ -148,7 +128,7 @@ export class SayoriPreviewPanel {
                 <div id='btn-holder'>
                 <vscode-button icon='copy' class='syntax-copy-button' secondary id='copy-syntax'></vscode-button>
                 </div>
-                <h3 id='syntax'>sayori</h3>
+                <span id='syntax' class='syntax-text'>sayori</span>
             </div>
             <div id='render-container' class='layered'></div>
             <div id='pose-controls' class='pose-controls'>

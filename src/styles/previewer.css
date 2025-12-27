@@ -1,0 +1,72 @@
+/* SYNTAX RELATED STYLES */
+
+.syntax-container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    height: 2rem;
+}
+
+.syntax-text {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* POSE SECTION RELATED STLES */
+
+.pose-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pose-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+
+    vscode-button {
+        width: 100%;
+        /* margin: 5px */
+    }
+}
+
+.pose-attribute-wrapper {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.pose-attribute {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%
+}
+
+.pose-select {
+    width: 100%
+}
+
+
+.layered {
+
+    outline: solid 2px color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    max-width: 480px;
+    display: grid;
+    aspect-ratio: 1 / 1;
+    justify-items: start;
+    align-items: start;
+}
+
+
+.layered>* {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
