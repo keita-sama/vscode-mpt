@@ -1,2 +1,4 @@
 node_modules/
 out/
+out/scripts/sayori.js
+out/scripts/sayori.js.map

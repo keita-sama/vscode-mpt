@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
 
-import { SayoriState } from '../dokis/SayoriState';
+// import { SayoriState } from '../dokis/SayoriState';
 
 export class SayoriPreviewPanel {
     public static currentPanel: SayoriPreviewPanel | undefined;
     private readonly _panel: vscode.WebviewPanel;
     private _disposables: vscode.Disposable[] = [];
-    private _state: SayoriState;
+    // private _state: SayoriState;
 
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-        this._state = new SayoriState();
+        // this._state = new SayoriState();
         this._panel = panel;
 
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -20,22 +20,22 @@ export class SayoriPreviewPanel {
 
         this._panel.webview.onDidReceiveMessage((message) => {
             switch (message.command) {
-                case 'print_state':
-                    console.log(this._state);
-                    break;
-                case 'fetch_state':
-                    this._panel.webview.postMessage({
-                        command: 'update_state',
-                        data: JSON.stringify(this._state),
-                    });
-                    break;
-                case 'update_pose':
-                    const { group, attr } = message.data;
-                    this._state.updateAttribute(group, attr);
-                    break;
-                case 'change_pose':
-                    this._state.changePose(message.data);
-                    break;
+                // case 'print_state':
+                //     console.log(this._state);
+                //     break;
+                // case 'fetch_state':
+                //     this._panel.webview.postMessage({
+                //         command: 'update_state',
+                //         data: JSON.stringify(this._state),
+                //     });
+                //     break;
+                // case 'update_pose':
+                //     const { group, attr } = message.data;
+                //     this._state.updateAttribute(group, attr);
+                //     break;
+                // case 'change_pose':
+                //     this._state.changePose(message.data);
+                //     break;
                 case 'copy_pose':
                     vscode.env.clipboard.writeText(message.data).then(() => {
                         vscode.window.showInformationMessage('Pose copied!');
@@ -111,8 +111,16 @@ export class SayoriPreviewPanel {
         const stylesUri = webview.asWebviewUri(
             vscode.Uri.parse(`${extensionUri}/src/styles/sayori.css`)
         );
-        const scriptUri = webview.asWebviewUri(
-            vscode.Uri.parse(`${extensionUri}/src/scripts/sayori.js`)
+
+        const stateUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/src/scripts/sayori/state.js`)
+        );
+        const handlerUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/src/scripts/sayori/handler.js`)
+        );
+
+        const srcUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/src/`)
         );
 
         return /*html*/ `
@@ -132,24 +140,25 @@ export class SayoriPreviewPanel {
         <style>
 
         </style>
+        <script>
+            const extensionUri = "${srcUri}";
+        </script>
         <body>
             <div id='syntax-container' class='syntax-container'>
+                <div id='btn-holder'>
                 <vscode-button icon='copy' class='syntax-copy-button' secondary onclick='copySyntax();'></vscode-button>
+                </div>
                 <h3 id='syntax'>sayori</h3>
             </div>
             <div id='render-container' class='layered'></div>
-            <vscode-single-select id="pose-select" class='pose-select' onchange="changePose(); createPoseOptions();">
-                <vscode-option selected value="turned">turned</vscode-option>
-                 <vscode-option value="tap">tap</vscode-option>
-            </vscode-single-select>
-            <br>
-            <div class='pose-option-buttons'>
-                <vscode-button>turned</vscode-button>
-                <vscode-button>tap</vscode-button>
+            <div id='pose-controls' class='pose-controls'>
+                <div id='pose-wrapper' class='pose-wrapper'></div>
+                <div id='pose-attribute-wrapper' class='pose-attribute-wrapper'></div>
             </div>
-            <div id='pose-options' class='pose-options'></div>
+            </div>
 
-            <script src="${scriptUri}"></script>
+            <script src="${stateUri}" type='module'></script>
+            <script src="${handlerUri}" type='module'></script>
         </body>
         </html>
         `;

@@ -1,20 +1,26 @@
-
 /* SYNTAX RELATED STYLES */
 .syntax-container {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
 }
 
-.syntax-copy-button {
-    aspect-ratio: 1/1;
+/* .syntax-copy-button {
+    /* aspect-ratio: 1/1; */
     /* padding: 0px 0.5rem; */
     /* background-color: transparent;
-    outline: none; */
-}
+    outline: none; 
+} */
 
 /* POSE SECTION RELATED STLES */
 
-.pose-option-buttons {
+.pose-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pose-wrapper {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -25,21 +31,28 @@
         /* margin: 5px */
     }
 }
-.pose-options {
+
+.pose-attribute-wrapper {
     padding: 0px;
     display: flex;
     flex-direction: column;
     gap: 5px
-    /* width: 100%; */
-    /* display: grid; */
-    /* grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); */
-    /* justify-content: space-between; */
+        /* width: 100%; */
+        /* display: grid; */
+        /* grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr)); */
+        /* justify-content: space-between; */
+}
+
+.pose-attribute {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .pose-select {
     width: 100%
 }
-            
+
 /* #render-container {
     display: flex;
     width: 75%;
@@ -54,20 +67,20 @@ img {
 }
 
 .layered {
-  display: grid;
+    display: grid;
+    aspect-ratio: 1 / 1;
+    /* Set horizontal alignment of items in, case they have a different width. */
+    /* justify-items: start | end | center | stretch (default); */
+    justify-items: start;
 
-  /* Set horizontal alignment of items in, case they have a different width. */
-  /* justify-items: start | end | center | stretch (default); */
-  justify-items: start;
-
-  /* Set vertical alignment of items, in case they have a different height. */
-  /* align-items: start | end | center | stretch (default); */
-  align-items: start;
+    /* Set vertical alignment of items, in case they have a different height. */
+    /* align-items: start | end | center | stretch (default); */
+    align-items: start;
 }
 
-.layered > * {
-  grid-column-start: 1;
-  grid-row-start: 1;
+.layered>* {
+    grid-column-start: 1;
+    grid-row-start: 1;
 }
 
 

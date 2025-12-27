@@ -143,14 +143,12 @@ function createPoseOptions() {
     getState().then((state) => {
         console.log(state);
 
-        
-
         const poseOptionContainer = document.getElementById('pose-options');
         poseOptionContainer.innerHTML = '';
 
         for (const [category, assets] of Object.entries(state.poseItems)) {
             const optionContainer = document.createElement('div');
-            
+
             const leftButton = document.createElement('vscode-button');
             const rightButton = document.createElement('vscode-button');
 
@@ -171,12 +169,32 @@ function createPoseOptions() {
     });
 }
 
+async function SKIBIDIOHIO() {
+    return getState().then((sayori) => {
+        const poseButtonContainer = document.getElementById(
+            'pose-option-buttons'
+        );
+
+        console.log('this fuction has begun executing!!');
+        console.log(sayori.poses);
+        console.log(sayori, 'BROOOOO WGER ASD');
+        sayori.poses.forEach((pose) => {
+            const poseButton = document.createElement('vscode-button');
+            poseButton.innerHTML = pose;
+
+            poseButtonContainer.appendChild(poseButton);
+        });
+    });
+}
+SKIBIDIOHIO();
+console.log(SKIBIDIOHIO);
+
 function getAsset(asset) {
     return `${ASSET_URI}/sayori_${asset}.png`;
 }
 
-createPoseOptions();
-generateSyntax();
+// generateSyntax();
+// createPoseOptions();
 
 function createImg(path) {
     const img = document.createElement('img');
@@ -255,21 +273,3 @@ function getAssetUri() {
         });
     });
 }
-
-render();
-
-// getAssetUri().then((uri) => {
-//     const body = document.getElementById('render-container');
-//     const img = document.createElement('img');
-//     img.src = getAsset('turned_casual_left_down');
-
-//     const img2 = document.createElement('img');
-//     img2.src = uri + encodeURIComponent('/sayori_turned_casual_right_down.png');
-
-//     const img3 = document.createElement('img');
-//     img3.src = uri + encodeURIComponent('/sayori_turned_facebase.png');
-
-//     body.appendChild(img);
-//     body.appendChild(img2);
-//     body.appendChild(img3);
-// });
