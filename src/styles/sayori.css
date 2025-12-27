@@ -7,8 +7,8 @@
 
 /* .syntax-copy-button {
     /* aspect-ratio: 1/1; */
-    /* padding: 0px 0.5rem; */
-    /* background-color: transparent;
+/* padding: 0px 0.5rem; */
+/* background-color: transparent;
     outline: none; 
 } */
 
@@ -46,7 +46,8 @@
 .pose-attribute {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    align-items: center;
+    width: 100%
 }
 
 .pose-select {
@@ -59,14 +60,18 @@
     place-content: center;
 } */
 
-img {
+/* img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 85%;
-}
+} */
 
 .layered {
+    outline: solid 2px rgba(255, 255, 255, 0.13);
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    max-width: 480px;
     display: grid;
     aspect-ratio: 1 / 1;
     /* Set horizontal alignment of items in, case they have a different width. */

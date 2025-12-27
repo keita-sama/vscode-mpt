@@ -2,16 +2,15 @@
     extensionUri is defined in the script of the Panel
 */
 
-const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`)
-    .then(res => res.json());
-
+const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`).then(
+    (res) => res.json()
+);
 
 console.log(sayoriProperties);
 export class SayoriState {
-
     constructor() {
         // NOTE: Not sure if i ever need to change this.
-        this.poses = ['tap', 'turned'];
+        this.poses = ['turned', 'tap'];
         this.pose = '';
         this.poseItems = {};
         this.state = {};
@@ -41,7 +40,7 @@ export class SayoriState {
     // Pagination functionality
     cycleNextAttribute(group) {
         const groupIndex = this.stateIndex[group];
-        const assetLength = this.poseItems[group].length;
+        const assetLength = this.poseItems[group].length - 1;
 
         if (groupIndex !== assetLength) {
             this.stateIndex[group]++;
@@ -62,5 +61,5 @@ export class SayoriState {
     }
     getAttribute(group) {
         return this.state[group];
-    } 
+    }
 }
