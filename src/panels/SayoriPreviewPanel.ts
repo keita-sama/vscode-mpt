@@ -146,7 +146,7 @@ export class SayoriPreviewPanel {
         <body>
             <div id='syntax-container' class='syntax-container'>
                 <div id='btn-holder'>
-                <vscode-button icon='copy' class='syntax-copy-button' secondary onclick='copySyntax();'></vscode-button>
+                <vscode-button icon='copy' class='syntax-copy-button' secondary id='copy-syntax'></vscode-button>
                 </div>
                 <h3 id='syntax'>sayori</h3>
             </div>

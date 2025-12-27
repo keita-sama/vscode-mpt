@@ -200,5 +200,19 @@ function createSyntax() {
         .join(' ');
 }
 
-
 createSyntax();
+
+// 5. Additional Functionalities
+
+// a. Copy Syntax
+function copySyntax() {
+    const syntax = document.getElementById('syntax').innerHTML;
+
+    vscode.postMessage({
+        command: 'copy_pose',
+        data: syntax,
+    });
+}
+
+const copyButton = document.getElementById('copy-syntax');
+copyButton.onclick = copySyntax;
