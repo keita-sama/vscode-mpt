@@ -29,14 +29,6 @@ export class SayoriState {
             this.updateGroup(group);
         });
     }
-    // NOTE: Deprecating this!
-    updateAttribute(group, attr) {
-        // Attr can almost never be wrong, except maybe if the images doesn't exist, but that's on the user.
-        // NOTE: Maybe write validation?
-        this.state[group] = attr;
-    }
-
-    // Pagination functionality
     cycleNextAttribute(group) {
         const groupIndex = this.stateIndex[group];
         const assetLength = this.poseItems[group].length - 1;

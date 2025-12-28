@@ -22,7 +22,7 @@
     gap: 0.5rem;
 }
 
-.pose-wrapper {
+.wrapper {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -34,7 +34,7 @@
     }
 }
 
-.pose-attribute-wrapper {
+.attribute-wrapper {
     padding: 0px;
     display: flex;
     flex-direction: column;
@@ -74,4 +74,9 @@
 .layered>* {
     grid-column-start: 1;
     grid-row-start: 1;
+}
+
+.cross-offset {
+    transform: translateX(18);
+    transform: translateY(22);
 }

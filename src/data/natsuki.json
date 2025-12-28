@@ -67,7 +67,7 @@
             "nose": ["n1", "n2", "n3", "n4", "n5"]
         },
         "fta": {
-            "NONE": "NONE"
+            "NONE": ["NONE"]
         }
     },
     "turned": {
@@ -76,6 +76,6 @@
         "right": ["rdown", "rhip"]
     },
     "cross": {
-        "NONE": "NONE"
+        "outfit": ["uniform", "casual"]
     }
 }

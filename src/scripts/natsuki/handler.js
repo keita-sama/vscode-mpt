@@ -21,11 +21,38 @@ const natsuki = new NatsukiState();
 
 const faceButtonContainer = document.getElementById('face-wrapper');
 
+function updateAttributeLabel(group, section) {
+    const label = document.getElementById(`label-${group}`);
+
+    console.log(
+        natsuki.getFaceAttribute(group),
+        natsuki.getPoseAttribute(group)
+    );
+
+    switch (section) {
+        case 'face':
+            label.innerHTML = natsuki.getFaceAttribute(group);
+            break;
+        case 'pose':
+            label.innerHTML = natsuki.getPoseAttribute(group);
+            break;
+    }
+
+    renderCharacter();
+}
+
 // 1. Generate Face Buttons
+
 natsuki.faces.forEach((face) => {
     const faceButton = document.createElement('vscode-button');
     faceButton.innerHTML = face;
     faceButton.setAttribute('id', face);
+
+    faceButton.onclick = () => {
+        natsuki.changeFace(face);
+        createFaceAttributeOptions();
+        renderCharacter();
+    };
 
     faceButtonContainer.appendChild(faceButton);
 });
@@ -39,78 +66,153 @@ natsuki.poses.forEach((pose) => {
     poseButton.innerHTML = pose;
     poseButton.setAttribute('id', pose);
 
+    poseButton.onclick = () => {
+        natsuki.changePose(pose);
+        createPoseAttributeOptions();
+        renderCharacter();
+    };
+
     poseButtonContainer.appendChild(poseButton);
 });
 
 // 3. Generate Face Attributes based on face;
 
-const faceAttributeContainer = document.getElementById(
-    'face-attribute-wrapper'
-);
+function createFaceAttributeOptions() {
+    const faceAttributeContainer = document.getElementById(
+        'face-attribute-wrapper'
+    );
 
-for (const [group, _attributes] of Object.entries(natsuki.faceItems)) {
-    const optionContainer = document.createElement('div');
+    faceAttributeContainer.innerHTML = '';
 
-    const leftButton = document.createElement('vscode-button');
-    const rightButton = document.createElement('vscode-button');
-    const attributeLabel = document.createElement('span');
+    for (const [group, _attributes] of Object.entries(natsuki.faceItems)) {
+        const optionContainer = document.createElement('div');
 
-    optionContainer.setAttribute('class', 'pose-attribute'); // TODO: i guess attributes and pose attributes are the same thing; ggive generic class later.
+        const leftButton = document.createElement('vscode-button');
+        const rightButton = document.createElement('vscode-button');
+        const attributeLabel = document.createElement('span');
 
-    leftButton.setAttribute('icon', 'chevron-left');
-    rightButton.setAttribute('icon', 'chevron-right');
+        // TODO: i guess attributes and pose attributes are the same thing; ggive generic class later.
+        optionContainer.setAttribute('class', 'pose-attribute');
 
-    leftButton.setAttribute('id', `prev-${group}`);
-    rightButton.setAttribute('id', `next-${group}`);
+        leftButton.setAttribute('icon', 'chevron-left');
+        rightButton.setAttribute('icon', 'chevron-right');
 
-    rightButton.setAttribute('secondary', '');
-    leftButton.setAttribute('secondary', '');
+        leftButton.setAttribute('id', `prev-${group}`);
+        rightButton.setAttribute('id', `next-${group}`);
 
-    attributeLabel.innerHTML = natsuki.getFaceAttribute(group);
-    attributeLabel.setAttribute('id', `label-${group}`);
+        rightButton.setAttribute('secondary', '');
+        leftButton.setAttribute('secondary', '');
 
-    optionContainer.appendChild(leftButton);
-    optionContainer.appendChild(attributeLabel);
-    optionContainer.appendChild(rightButton);
+        rightButton.onclick = () => {
+            natsuki.cycleNextFaceAttribute(group);
+            updateAttributeLabel(group, 'face');
+            renderCharacter();
+        };
 
-    faceAttributeContainer.appendChild(optionContainer);
+        leftButton.onclick = () => {
+            natsuki.cyclePrevFaceAttribute(group);
+            updateAttributeLabel(group, 'face');
+            renderCharacter();
+        };
+
+        attributeLabel.innerHTML = natsuki.getFaceAttribute(group);
+        attributeLabel.setAttribute('id', `label-${group}`);
+
+        optionContainer.appendChild(leftButton);
+        optionContainer.appendChild(attributeLabel);
+        optionContainer.appendChild(rightButton);
+
+        optionContainer.addEventListener('wheel', (ev) => {
+            const direction = ev.deltaY > 0 ? 'down' : 'up';
+
+            // NOTE: These simulate the buttons since the event can't read the group.
+            switch (direction) {
+                case 'down':
+                    rightButton.onclick();
+                    break;
+                case 'up':
+                    leftButton.onclick();
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        faceAttributeContainer.appendChild(optionContainer);
+    }
 }
+
+createFaceAttributeOptions();
 
 // 4. Generate Pose Attributes based on Pose
 
-const poseAttributeContainer = document.getElementById(
-    'pose-attribute-wrapper'
-);
+function createPoseAttributeOptions() {
+    const poseAttributeContainer = document.getElementById(
+        'pose-attribute-wrapper'
+    );
 
-for (const [group, _attributes] of Object.entries(natsuki.poseItems)) {
-    const optionContainer = document.createElement('div');
+    poseAttributeContainer.innerHTML = '';
 
-    const leftButton = document.createElement('vscode-button');
-    const rightButton = document.createElement('vscode-button');
-    const attributeLabel = document.createElement('span');
+    for (const [group, _attributes] of Object.entries(natsuki.poseItems)) {
+        const optionContainer = document.createElement('div');
 
-    optionContainer.setAttribute('class', 'pose-attribute'); // TODO: i guess attributes and pose attributes are the same thing; ggive generic class later.
+        const leftButton = document.createElement('vscode-button');
+        const rightButton = document.createElement('vscode-button');
+        const attributeLabel = document.createElement('span');
 
-    leftButton.setAttribute('icon', 'chevron-left');
-    rightButton.setAttribute('icon', 'chevron-right');
+        optionContainer.setAttribute('class', 'pose-attribute'); // TODO: i guess attributes and pose attributes are the same thing; ggive generic class later.
 
-    leftButton.setAttribute('id', `prev-${group}`);
-    rightButton.setAttribute('id', `next-${group}`);
+        leftButton.setAttribute('icon', 'chevron-left');
+        rightButton.setAttribute('icon', 'chevron-right');
 
-    rightButton.setAttribute('secondary', '');
-    leftButton.setAttribute('secondary', '');
+        leftButton.setAttribute('id', `prev-${group}`);
+        rightButton.setAttribute('id', `next-${group}`);
 
-    attributeLabel.innerHTML = natsuki.getPoseAttribute(group);
-    attributeLabel.setAttribute('id', `label-${group}`);
+        rightButton.setAttribute('secondary', '');
+        leftButton.setAttribute('secondary', '');
 
-    optionContainer.appendChild(leftButton);
-    optionContainer.appendChild(attributeLabel);
-    optionContainer.appendChild(rightButton);
+        rightButton.onclick = () => {
+            natsuki.cycleNextPoseAttribute(group);
+            updateAttributeLabel(group, 'pose');
+            renderCharacter();
+        };
 
-    poseAttributeContainer.appendChild(optionContainer);
+        leftButton.onclick = () => {
+            natsuki.cyclePrevPoseAttribute(group);
+            updateAttributeLabel(group, 'pose');
+            renderCharacter();
+        };
+
+        attributeLabel.innerHTML = natsuki.getPoseAttribute(group);
+        attributeLabel.setAttribute('id', `label-${group}`);
+
+        optionContainer.appendChild(leftButton);
+        optionContainer.appendChild(attributeLabel);
+        optionContainer.appendChild(rightButton);
+
+        optionContainer.addEventListener('wheel', (ev) => {
+            const direction = ev.deltaY > 0 ? 'down' : 'up';
+
+            // NOTE: These simulate the buttons since the event can't read the group.
+            switch (direction) {
+                case 'down':
+                    rightButton.onclick();
+                    break;
+                case 'up':
+                    leftButton.onclick();
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        poseAttributeContainer.appendChild(optionContainer);
+    }
 }
 
+createPoseAttributeOptions();
 // 5. Render character
+
 const armMap = {
     rhip: 'hip',
     lhip: 'hip',
@@ -119,41 +221,58 @@ const armMap = {
 };
 
 const body = document.getElementById('render-container');
-const items = [];
-const { outfit } = natsuki.poseState;
-const { eyes, mouth, eyebrows, nose } = natsuki.faceState;
 
-console.log('hello');
-function addAttribute(path) {
-    const img = document.createElement('img');
-    img.src = getAsset(path);
+function renderCharacter() {
+    const items = [];
+    const { outfit } = natsuki.poseState;
+    const { eyes, mouth, eyebrows, nose } = natsuki.faceState;
 
-    items.push(img);
+    function addAttribute(path, offset) {
+        const img = document.createElement('img');
+        img.setAttribute('src', getAsset(path));
+
+        if (offset) {
+            // NOTE: This fixes the minor height adjust caused by cross pose.
+            img.style = 'transform: translate(9px, 11px);';
+        }
+
+        items.push(img);
+    }
+
+    // a. Render her face
+
+    const crossed = natsuki.pose === 'cross';
+    
+    if (natsuki.face !== 'fta') {
+        const faceName = natsuki.face === 'ff' ? 'face_forward' : 'face_sad';
+
+        addAttribute(faceName, crossed);
+        addAttribute(`${natsuki.face}_eyes_${eyes}`, crossed);
+        addAttribute(`${natsuki.face}_mouth_${mouth}`, crossed);
+        addAttribute(`${natsuki.face}_eyebrows_${eyebrows}`, crossed);
+        addAttribute(`${natsuki.face}_nose_${nose}`, crossed);
+    } else if (natsuki.face === 'fta') {
+        addAttribute('face_turnedaway', crossed);
+    }
+
+    // b. Render her body.
+    if (natsuki.pose === 'turned') {
+        const { left, right } = natsuki.poseState;
+
+        addAttribute(`turned_${outfit}_right_${armMap[right]}`);
+        addAttribute(`turned_${outfit}_left_${armMap[left]}`);
+    } else if (natsuki.pose === 'cross') {
+        addAttribute(
+            `crossed(${natsuki.face === 'fta' ? 'fs' : natsuki.face})_${outfit}`
+        );
+    }
+
+    body.innerHTML = '';
+    items.forEach((thing) => {
+        body.appendChild(thing);
+    });
 }
 
-// a. Render her body.
-if (natsuki.pose === 'turned') {
-    const { left, right } = natsuki.poseState;
-
-    addAttribute(`turned_${outfit}_right_${armMap[right]}`);
-    addAttribute(`turned_${outfit}_left_${armMap[left]}`);
-}
-
-// b. Render her face
-
-if (natsuki.face !== 'fta') {
-    const faceName = natsuki.face === 'ff' ? 'face_forward' : 'face_sad';
-
-    addAttribute(faceName);
-    addAttribute(`${natsuki.face}_eyes_${eyes}`);
-    addAttribute(`${natsuki.face}_mouth_${mouth}`);
-    addAttribute(`${natsuki.face}_eyebrows_${eyebrows}`);
-    addAttribute(`${natsuki.face}_nose_${nose}`);
-}
-
-body.innerHTML = '';
-items.forEach((thing) => {
-    body.appendChild(thing);
-});
+renderCharacter();
 
 // 6. Generate the Syntax

@@ -83,8 +83,8 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreviewPanel_1.SayoriPreviewPanel.render(context.extensionUri));
-    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreviewPanel_1.NatsukiPreviewPanel.render(context.extensionUri));
+    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreviewPanel_1.SayoriPreviewPanel.render(context));
+    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreviewPanel_1.NatsukiPreviewPanel.render(context));
     context.subscriptions.push(sayori);
     context.subscriptions.push(natsuki);
 }

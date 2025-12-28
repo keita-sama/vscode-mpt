@@ -1,62 +1,63 @@
 {
-  "name": "vscode-mpt",
-  "displayName": "vscode-mpt",
-  "description": "Tool for DDLC modders that use MPT",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.99.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./out/extension.js",
-  "contributes": {
-    "configuration": {
-      "title": "Keita's MPT Previewer",
-      "type": "object",
-      "properties": {
-        "vscode-mpt.workingMPTPath": {
-          "type": "string",
-          "default": "",
-          "description": "The assets used to render the previewer"
-        }
-      }
+    "name": "vscode-mpt",
+    "displayName": "vscode-mpt",
+    "description": "Tool for DDLC modders that use MPT",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.99.0"
     },
-    "commands": [
-      {
-        "command": "vscode-mpt.preview-sayori",
-        "title": "Start Previewing: Sayori"
-      },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+
+        "configuration": {
+            "title": "Keita's MPT Previewer",
+            "type": "object",
+            "properties": {
+                "vscode-mpt.workingMPTPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "The assets used to render the previewer"
+                }
+            }
+        },
+        "commands": [
             {
-        "command": "vscode-mpt.preview-natsuki",
-        "title": "Start Previewing: Natsuki"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.99.0",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2",
-    "eslint": "^9.25.1",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "@vscode-elements/elements": "^1.16.1",
-    "@vscode/codicons": "^0.0.36"
-  }
+                "command": "vscode-mpt.preview-sayori",
+                "title": "Start Previewing: Sayori"
+            },
+            {
+                "command": "vscode-mpt.preview-natsuki",
+                "title": "Start Previewing: Natsuki"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.99.0",
+        "@typescript-eslint/eslint-plugin": "^8.31.1",
+        "@typescript-eslint/parser": "^8.31.1",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.5.2",
+        "eslint": "^9.25.1",
+        "typescript": "^5.8.3"
+    },
+    "dependencies": {
+        "@vscode-elements/elements": "^1.16.1",
+        "@vscode/codicons": "^0.0.36"
+    }
 }

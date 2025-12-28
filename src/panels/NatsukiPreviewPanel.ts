@@ -39,7 +39,9 @@ export class NatsukiPreviewPanel {
         });
     }
 
-    public static render(extensionUri: vscode.Uri) {
+    public static render(context: vscode.ExtensionContext) {
+        const { extensionUri } = context;
+        
         if (NatsukiPreviewPanel.currentPanel) {
             NatsukiPreviewPanel.currentPanel._panel.reveal(
                 vscode.ViewColumn.Two
@@ -132,11 +134,11 @@ export class NatsukiPreviewPanel {
             </div>
             <div id='render-container' class='layered'></div>
             <div id='pose-controls' class='pose-controls'>
-                <div id='face-wrapper' class='pose-wrapper'></div>
-                <div id='pose-wrapper' class='pose-wrapper'></div>
-                <div id='pose-attribute-wrapper' class='pose-attribute-wrapper'></div>
+                <div id='face-wrapper' class='wrapper'></div>
+                <div id='pose-wrapper' class='wrapper'></div>
+                <div id='pose-attribute-wrapper' class='attribute-wrapper'></div>
                 <div class='separator'></div>
-                <div id='face-attribute-wrapper' class='face-attribute-wrapper'></div>
+                <div id='face-attribute-wrapper' class='attribute-wrapper'></div>
             </div>
             </div>
 

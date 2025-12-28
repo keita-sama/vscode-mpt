@@ -52,12 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     const sayori = vscode.commands.registerCommand(
         'vscode-mpt.preview-sayori',
-        () => SayoriPreviewPanel.render(context.extensionUri)
+        () => SayoriPreviewPanel.render(context)
     );
 
     const natsuki = vscode.commands.registerCommand(
         'vscode-mpt.preview-natsuki',
-        () => NatsukiPreviewPanel.render(context.extensionUri)
+        () => NatsukiPreviewPanel.render(context)
     );
 
     context.subscriptions.push(sayori);

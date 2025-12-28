@@ -37,11 +37,31 @@ export class NatsukiState {
         });
     }
 
+    cycleNextPoseAttribute(group) {
+        const groupIndex = this.poseStateIndex[group];
+        const assetLength = this.poseItems[group].length - 1;
+
+        if (groupIndex !== assetLength) {
+            this.poseStateIndex[group]++;
+        }
+        this.updatePoseGroup(group);
+    }
+
+    cyclePrevPoseAttribute(group) {
+        const groupIndex = this.poseStateIndex[group];
+
+        if (groupIndex !== 0) {
+            this.poseStateIndex[group]--;
+        }
+
+        this.updatePoseGroup(group);
+    }
+
     updatePoseGroup(group) {
         this.poseState[group] =
             this.poseItems[group][this.poseStateIndex[group]];
     }
-    s;
+
     getPoseAttribute(group) {
         return this.poseState[group];
     }
@@ -60,12 +80,33 @@ export class NatsukiState {
         });
     }
 
+    cycleNextFaceAttribute(group) {
+        const groupIndex = this.faceStateIndex[group];
+        const assetLength = this.faceItems[group].length - 1;
+
+        if (groupIndex !== assetLength) {
+            this.faceStateIndex[group]++;
+        }
+        this.updateFaceGroup(group);
+    }
+
+    cyclePrevFaceAttribute(group) {
+        const groupIndex = this.faceStateIndex[group];
+
+        if (groupIndex !== 0) {
+            this.faceStateIndex[group]--;
+        }
+
+        this.updateFaceGroup(group);
+    }
+
     updateFaceGroup(group) {
         this.faceState[group] =
             this.faceItems[group][this.faceStateIndex[group]];
     }
 
     getFaceAttribute(group) {
+        console.log('GET FACE ATTR FUNC', group)
         return this.faceState[group];
     }
 }

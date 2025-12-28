@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import path from 'path';
 
 export class SayoriPreviewPanel {
     public static currentPanel: SayoriPreviewPanel | undefined;
@@ -39,7 +40,9 @@ export class SayoriPreviewPanel {
         });
     }
 
-    public static render(extensionUri: vscode.Uri) {
+    public static render(context: vscode.ExtensionContext) {
+        const { extensionUri } = context;
+
         if (SayoriPreviewPanel.currentPanel) {
             SayoriPreviewPanel.currentPanel._panel.reveal(
                 vscode.ViewColumn.Two
@@ -52,6 +55,10 @@ export class SayoriPreviewPanel {
                 {
                     enableScripts: true,
                 }
+            );
+
+            panel.iconPath = vscode.Uri.file(
+                path.join(context.extensionPath, 'assets', 'cookieIcon.svg')
             );
 
             SayoriPreviewPanel.currentPanel = new SayoriPreviewPanel(
@@ -113,7 +120,7 @@ export class SayoriPreviewPanel {
             
             <link href="${codiconsUri}" rel="stylesheet" id="vscode-codicon-stylesheet"/>
             <link rel="stylesheet" href="${stylesUri}">
-
+            <link rel="icon" href="${srcUri}/assets/cookieIcon.svg">
             <script src="${elementsUri}" type="module"></script>
             </head>
 
@@ -132,8 +139,8 @@ export class SayoriPreviewPanel {
             </div>
             <div id='render-container' class='layered'></div>
             <div id='pose-controls' class='pose-controls'>
-                <div id='pose-wrapper' class='pose-wrapper'></div>
-                <div id='pose-attribute-wrapper' class='pose-attribute-wrapper'></div>
+                <div id='pose-wrapper' class='wrapper'></div>
+                <div id='pose-attribute-wrapper' class='attribute-wrapper'></div>
             </div>
             </div>
 
