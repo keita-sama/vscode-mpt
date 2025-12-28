@@ -14,12 +14,6 @@ function getAssetUri() {
 }
 
 const getAsset = (asset) => `${window.ASSET_URI}/natsuki_${asset}.png`;
-const createImg = (path) => {
-    const img = document.createElement('img');
-    img.src = getAsset(path);
-
-    return img;
-};
 
 import { NatsukiState } from './state.js';
 
@@ -105,7 +99,7 @@ for (const [group, _attributes] of Object.entries(natsuki.poseItems)) {
 
     rightButton.setAttribute('secondary', '');
     leftButton.setAttribute('secondary', '');
-    
+
     attributeLabel.innerHTML = natsuki.getPoseAttribute(group);
     attributeLabel.setAttribute('id', `label-${group}`);
 
@@ -115,3 +109,51 @@ for (const [group, _attributes] of Object.entries(natsuki.poseItems)) {
 
     poseAttributeContainer.appendChild(optionContainer);
 }
+
+// 5. Render character
+const armMap = {
+    rhip: 'hip',
+    lhip: 'hip',
+    rdown: 'down',
+    ldown: 'down',
+};
+
+const body = document.getElementById('render-container');
+const items = [];
+const { outfit } = natsuki.poseState;
+const { eyes, mouth, eyebrows, nose } = natsuki.faceState;
+
+console.log('hello');
+function addAttribute(path) {
+    const img = document.createElement('img');
+    img.src = getAsset(path);
+
+    items.push(img);
+}
+
+// a. Render her body.
+if (natsuki.pose === 'turned') {
+    const { left, right } = natsuki.poseState;
+
+    addAttribute(`turned_${outfit}_right_${armMap[right]}`);
+    addAttribute(`turned_${outfit}_left_${armMap[left]}`);
+}
+
+// b. Render her face
+
+if (natsuki.face !== 'fta') {
+    const faceName = natsuki.face === 'ff' ? 'face_forward' : 'face_sad';
+
+    addAttribute(faceName);
+    addAttribute(`${natsuki.face}_eyes_${eyes}`);
+    addAttribute(`${natsuki.face}_mouth_${mouth}`);
+    addAttribute(`${natsuki.face}_eyebrows_${eyebrows}`);
+    addAttribute(`${natsuki.face}_nose_${nose}`);
+}
+
+body.innerHTML = '';
+items.forEach((thing) => {
+    body.appendChild(thing);
+});
+
+// 6. Generate the Syntax

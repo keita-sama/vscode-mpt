@@ -72,8 +72,8 @@
     },
     "turned": {
         "outfit": ["uniform", "casual"],
-        "left": ["lup", "ldown"],
-        "right": ["lup", "ldown"]
+        "left": ["ldown", "rhip"],
+        "right": ["rdown", "rhip"]
     },
     "cross": {
         "NONE": "NONE"
