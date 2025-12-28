@@ -1,5 +1,5 @@
 const vscode = acquireVsCodeApi();
-window.ASSET_URI = await getAssetUri();
+window.ASSET_URI = await getAssetUri() + '/natsuki';
 
 function getAssetUri() {
     vscode.postMessage({ command: 'image_path' });

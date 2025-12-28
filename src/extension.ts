@@ -4,8 +4,8 @@ import path from 'path';
 import * as vscode from 'vscode';
 import fs from 'fs';
 
-import { SayoriPreviewPanel } from './panels/SayoriPreviewPanel';
-import { NatsukiPreviewPanel } from './panels/NatsukiPreviewPanel';
+import { SayoriPreview } from './panels/SayoriPreview';
+import { NatsukiPreview } from './panels/NatsukiPreview';
 
 export function activate(context: vscode.ExtensionContext) {
     let foundMPTInstallation = false;
@@ -52,12 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     const sayori = vscode.commands.registerCommand(
         'vscode-mpt.preview-sayori',
-        () => SayoriPreviewPanel.render(context)
+        () => SayoriPreview.render(context)
     );
 
     const natsuki = vscode.commands.registerCommand(
         'vscode-mpt.preview-natsuki',
-        () => NatsukiPreviewPanel.render(context)
+        () => NatsukiPreview.render(context)
     );
 
     context.subscriptions.push(sayori);

@@ -43,8 +43,8 @@ exports.deactivate = deactivate;
 const path_1 = __importDefault(require("path"));
 const vscode = __importStar(require("vscode"));
 const fs_1 = __importDefault(require("fs"));
-const SayoriPreviewPanel_1 = require("./panels/SayoriPreviewPanel");
-const NatsukiPreviewPanel_1 = require("./panels/NatsukiPreviewPanel");
+const SayoriPreview_1 = require("./panels/SayoriPreview");
+const NatsukiPreview_1 = require("./panels/NatsukiPreview");
 function activate(context) {
     let foundMPTInstallation = false;
     let mptInstallationPath = '';
@@ -83,8 +83,8 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreviewPanel_1.SayoriPreviewPanel.render(context));
-    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreviewPanel_1.NatsukiPreviewPanel.render(context));
+    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreview_1.SayoriPreview.render(context));
+    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreview_1.NatsukiPreview.render(context));
     context.subscriptions.push(sayori);
     context.subscriptions.push(natsuki);
 }
