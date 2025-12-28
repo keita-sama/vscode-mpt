@@ -6,7 +6,6 @@ const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`).then(
     (res) => res.json()
 );
 
-console.log(sayoriProperties);
 export class SayoriState {
     constructor() {
         // NOTE: Not sure if i ever need to change this.

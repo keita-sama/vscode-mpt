@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import fs from 'fs';
 
 import { SayoriPreviewPanel } from './panels/SayoriPreviewPanel';
+import { NatsukiPreviewPanel } from './panels/NatsukiPreviewPanel';
 
 export function activate(context: vscode.ExtensionContext) {
     let foundMPTInstallation = false;
@@ -49,12 +50,18 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const disposable = vscode.commands.registerCommand(
+    const sayori = vscode.commands.registerCommand(
         'vscode-mpt.preview-sayori',
         () => SayoriPreviewPanel.render(context.extensionUri)
     );
 
-    context.subscriptions.push(disposable);
+    const natsuki = vscode.commands.registerCommand(
+        'vscode-mpt.preview-natsuki',
+        () => NatsukiPreviewPanel.render(context.extensionUri)
+    );
+
+    context.subscriptions.push(sayori);
+    context.subscriptions.push(natsuki);
 }
 
 // This method is called when your extension is deactivated

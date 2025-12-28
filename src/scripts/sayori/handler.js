@@ -20,6 +20,7 @@ const createImg = (path) => {
 
     return img;
 };
+
 import { SayoriState } from './state.js';
 
 const sayori = new SayoriState();

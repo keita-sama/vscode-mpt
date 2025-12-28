@@ -29,6 +29,10 @@
       {
         "command": "vscode-mpt.preview-sayori",
         "title": "Start Previewing: Sayori"
+      },
+            {
+        "command": "vscode-mpt.preview-natsuki",
+        "title": "Start Previewing: Natsuki"
       }
     ]
   },

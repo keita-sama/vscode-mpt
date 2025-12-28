@@ -52,6 +52,11 @@
     width: 100%
 }
 
+.separator {
+    width: 100%;
+    height: 2px;
+    background-color: color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);;
+}
 
 .layered {
 
