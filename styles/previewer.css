@@ -55,21 +55,27 @@
 .separator {
     width: 100%;
     height: 2px;
-    background-color: color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);;
+    background-color: color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);
+    ;
 }
 
 .layered {
-
-    outline: solid 2px color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-    max-width: 480px;
+    max-width: 320px;
     display: grid;
     aspect-ratio: 1 / 1;
     justify-items: start;
     align-items: start;
 }
 
+.layered-window {
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    outline: solid 2px color-mix(in srgb, var(--vscode-editor-foreground) 20%, transparent);
+    width: 100%;
+}
 
 .layered>* {
     grid-column-start: 1;

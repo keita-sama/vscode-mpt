@@ -2,9 +2,7 @@
     NOTE: 'extentionUri' is defined in the script of the panel.
 */
 
-const natsukiProperties = await fetch(`${extensionUri}/data/natsuki.json`).then(
-    (res) => res.json()
-);
+const natsukiProperties = await fetch(`${extensionUri}/data/natsuki.json`).then((res) => res.json());
 
 export class NatsukiState {
     constructor() {
@@ -40,26 +38,30 @@ export class NatsukiState {
     cycleNextPoseAttribute(group) {
         const groupIndex = this.poseStateIndex[group];
         const assetLength = this.poseItems[group].length - 1;
+        const isEnd = groupIndex === assetLength;
 
-        if (groupIndex !== assetLength) {
+        if (!isEnd) {
             this.poseStateIndex[group]++;
         }
         this.updatePoseGroup(group);
+
+        return (this.poseStateIndex[group] === assetLength);
     }
 
     cyclePrevPoseAttribute(group) {
         const groupIndex = this.poseStateIndex[group];
 
-        if (groupIndex !== 0) {
+        if (this.poseStateIndex[group] !== 0) {
             this.poseStateIndex[group]--;
         }
 
         this.updatePoseGroup(group);
+
+        return (this.poseStateIndex[group] === 0);
     }
 
     updatePoseGroup(group) {
-        this.poseState[group] =
-            this.poseItems[group][this.poseStateIndex[group]];
+        this.poseState[group] = this.poseItems[group][this.poseStateIndex[group]];
     }
 
     getPoseAttribute(group) {
@@ -88,6 +90,8 @@ export class NatsukiState {
             this.faceStateIndex[group]++;
         }
         this.updateFaceGroup(group);
+
+        return (this.faceStateIndex[group] === assetLength);
     }
 
     cyclePrevFaceAttribute(group) {
@@ -98,15 +102,15 @@ export class NatsukiState {
         }
 
         this.updateFaceGroup(group);
+
+        return (this.faceStateIndex[group] === 0);
     }
 
     updateFaceGroup(group) {
-        this.faceState[group] =
-            this.faceItems[group][this.faceStateIndex[group]];
+        this.faceState[group] = this.faceItems[group][this.faceStateIndex[group]];
     }
 
     getFaceAttribute(group) {
-        console.log('GET FACE ATTR FUNC', group)
         return this.faceState[group];
     }
 }

@@ -107,7 +107,9 @@ export class NatsukiPreview {
                 </div>
                 <span id='syntax' class='syntax-text'>natsuki</span>
             </div>
-            <div id='render-container' class='layered'></div>
+            <div id='render-wrapper' class='layered-window'>
+                <div id='render-container' class='layered'></div>
+            </div>
             <div id='pose-controls' class='pose-controls'>
                 <div id='face-wrapper' class='wrapper'></div>
                 <div id='pose-wrapper' class='wrapper'></div>

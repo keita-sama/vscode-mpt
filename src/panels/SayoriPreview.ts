@@ -93,7 +93,6 @@ export class SayoriPreview {
             
             <link href="${codiconsUri}" rel="stylesheet" id="vscode-codicon-stylesheet"/>
             <link rel="stylesheet" href="${stylesUri}">
-            <link rel="icon" href="${srcUri}/assets/cookieIcon.svg">
             <script src="${elementsUri}" type="module"></script>
             </head>
 
@@ -110,7 +109,9 @@ export class SayoriPreview {
                 </div>
                 <span id='syntax' class='syntax-text'>sayori</span>
             </div>
-            <div id='render-container' class='layered'></div>
+            <div id='render-wrapper' class='layered-window'>
+                <div id='render-container' class='layered'></div>
+            </div>
             <div id='pose-controls' class='pose-controls'>
                 <div id='pose-wrapper' class='wrapper'></div>
                 <div id='pose-attribute-wrapper' class='attribute-wrapper'></div>

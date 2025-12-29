@@ -2,9 +2,7 @@
     extensionUri is defined in the script of the Panel
 */
 
-const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`).then(
-    (res) => res.json()
-);
+const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`).then((res) => res.json());
 
 export class SayoriState {
     constructor() {
@@ -32,11 +30,13 @@ export class SayoriState {
     cycleNextAttribute(group) {
         const groupIndex = this.stateIndex[group];
         const assetLength = this.poseItems[group].length - 1;
-
+        
         if (groupIndex !== assetLength) {
             this.stateIndex[group]++;
         }
         this.updateGroup(group);
+
+        return (this.stateIndex[group] === assetLength);
     }
     cyclePrevAttribute(group) {
         const groupIndex = this.stateIndex[group];
@@ -46,6 +46,8 @@ export class SayoriState {
         }
 
         this.updateGroup(group);
+
+        return (this.stateIndex[group] === 0);
     }
     updateGroup(group) {
         this.state[group] = this.poseItems[group][this.stateIndex[group]];

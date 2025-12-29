@@ -57,9 +57,7 @@ function updateAttributeLabel(group) {
 }
 
 function createAttributeOptions() {
-    const attributeOptionContainer = document.getElementById(
-        'pose-attribute-wrapper'
-    );
+    const attributeOptionContainer = document.getElementById('pose-attribute-wrapper');
 
     attributeOptionContainer.innerHTML = '';
 
@@ -81,14 +79,22 @@ function createAttributeOptions() {
         rightButton.setAttribute('secondary', '');
         leftButton.setAttribute('secondary', '');
 
+        function updateButtons() {
+            document.getElementById(leftButton.id).disabled = sayori.stateIndex[group] === 0;
+            document.getElementById(rightButton.id).disabled =
+                sayori.stateIndex[group] === sayori.poseItems[group].length - 1;
+        }
+
         rightButton.onclick = () => {
             sayori.cycleNextAttribute(group);
             updateAttributeLabel(group);
+            updateButtons();
         };
 
         leftButton.onclick = () => {
             sayori.cyclePrevAttribute(group);
             updateAttributeLabel(group);
+            updateButtons();
         };
 
         attributeLabel.innerHTML = sayori.getAttribute(group);
@@ -115,6 +121,8 @@ function createAttributeOptions() {
         });
 
         attributeOptionContainer.appendChild(optionContainer);
+
+        updateButtons();
     }
 }
 
@@ -164,12 +172,6 @@ function renderCharacter() {
         items.push(createImg(`turned_eyebrows_${eyebrows}`));
     }
 
-    // bodybase or left arm/rightarm
-    // facebase
-    // nose
-    // mouth
-    // eyes
-    // eyebrows
     body.innerHTML = '';
     items.forEach((thing) => {
         body.appendChild(thing);
@@ -196,9 +198,7 @@ function createSyntax() {
     syntax.push(sayori.state.eyes); // eyes
     syntax.push(sayori.state.eyebrows); // eyebrows
 
-    document.getElementById('syntax').innerHTML = syntax
-        .filter((x) => x)
-        .join(' ');
+    document.getElementById('syntax').innerHTML = syntax.filter((x) => x).join(' ');
 }
 
 createSyntax();

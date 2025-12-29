@@ -1,5 +1,5 @@
 const vscode = acquireVsCodeApi();
-window.ASSET_URI = (await getAssetUri());
+window.ASSET_URI = await getAssetUri();
 
 function getAssetUri() {
     vscode.postMessage({ command: 'image_path' });
@@ -35,6 +35,7 @@ function updateAttributeLabel(group, section) {
             break;
     }
 
+    createSyntax();
     renderCharacter();
 }
 
@@ -100,18 +101,22 @@ function createFaceAttributeOptions() {
         rightButton.setAttribute('secondary', '');
         leftButton.setAttribute('secondary', '');
 
+        function updateButtons() {
+            document.getElementById(leftButton.id).disabled = natsuki.faceStateIndex[group] === 0;
+            document.getElementById(rightButton.id).disabled =
+                natsuki.faceStateIndex[group] === natsuki.faceItems[group].length - 1;
+        }
+
         rightButton.onclick = () => {
             natsuki.cycleNextFaceAttribute(group);
+            updateButtons();
             updateAttributeLabel(group, 'face');
-            createSyntax();
-            renderCharacter();
         };
 
         leftButton.onclick = () => {
             natsuki.cyclePrevFaceAttribute(group);
+            updateButtons();
             updateAttributeLabel(group, 'face');
-            createSyntax();
-            renderCharacter();
         };
 
         attributeLabel.innerHTML = natsuki.getFaceAttribute(group);
@@ -138,6 +143,8 @@ function createFaceAttributeOptions() {
         });
 
         faceAttributeContainer.appendChild(optionContainer);
+
+        updateButtons();
     }
 }
 
@@ -168,8 +175,15 @@ function createPoseAttributeOptions() {
         rightButton.setAttribute('secondary', '');
         leftButton.setAttribute('secondary', '');
 
+        function updateButtons() {
+            document.getElementById(leftButton.id).disabled = natsuki.poseStateIndex[group] === 0;
+            document.getElementById(rightButton.id).disabled =
+                natsuki.poseStateIndex[group] === natsuki.poseItems[group].length - 1;
+        }
+
         rightButton.onclick = () => {
             natsuki.cycleNextPoseAttribute(group);
+            updateButtons();
             updateAttributeLabel(group, 'pose');
             createSyntax();
             renderCharacter();
@@ -177,6 +191,7 @@ function createPoseAttributeOptions() {
 
         leftButton.onclick = () => {
             natsuki.cyclePrevPoseAttribute(group);
+            updateButtons();
             updateAttributeLabel(group, 'pose');
             createSyntax();
             renderCharacter();
@@ -206,6 +221,8 @@ function createPoseAttributeOptions() {
         });
 
         poseAttributeContainer.appendChild(optionContainer);
+
+        updateButtons();
     }
 }
 
@@ -313,3 +330,5 @@ function copySyntax() {
 
 const copyButton = document.getElementById('copy-syntax');
 copyButton.onclick = copySyntax;
+
+// b. Pagination Button
