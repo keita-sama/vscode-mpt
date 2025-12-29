@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import path from 'path';
 
 export class NatsukiPreview {
     public static currentPanel: NatsukiPreview | undefined;
@@ -42,12 +43,14 @@ export class NatsukiPreview {
         } else {
             const panel = vscode.window.createWebviewPanel(
                 'natsuki-preview',
-                'Previewing: natsuki',
+                'Previewing: Natsuki',
                 vscode.ViewColumn.Two,
                 {
                     enableScripts: true,
                 }
             );
+
+            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'preview.svg'));
 
             NatsukiPreview.currentPanel = new NatsukiPreview(panel, extensionUri);
         }

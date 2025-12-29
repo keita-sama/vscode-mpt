@@ -50,7 +50,7 @@ export class SayoriPreview {
                 }
             );
 
-            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'cookieIcon.svg'));
+            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'preview.svg'));
 
             SayoriPreview.currentPanel = new SayoriPreview(panel, extensionUri);
         }

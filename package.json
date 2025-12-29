@@ -1,7 +1,7 @@
 {
     "name": "vscode-mpt",
     "displayName": "vscode-mpt",
-    "publisher": "keita.xo",
+    "publisher": "keita-sama",
     "description": "Tool for DDLC modders that use MPT",
     "version": "0.0.1",
     "engines": {
