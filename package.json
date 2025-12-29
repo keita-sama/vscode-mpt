@@ -1,6 +1,7 @@
 {
     "name": "vscode-mpt",
     "displayName": "vscode-mpt",
+    "publisher": "keita.xo",
     "description": "Tool for DDLC modders that use MPT",
     "version": "0.0.1",
     "engines": {
@@ -12,9 +13,8 @@
     "activationEvents": [
         "onStartupFinished"
     ],
-    "main": "./out/extension.js",
+    "main": "./dist/extension.js",
     "contributes": {
-
         "configuration": {
             "title": "Keita's MPT Previewer",
             "type": "object",

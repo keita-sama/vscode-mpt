@@ -1,12 +1,39 @@
 import * as vscode from 'vscode';
-import { DokiPreview } from './DokiPreview';
 
-export class NatsukiPreview extends DokiPreview {
-    constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-        super(panel, extensionUri);
+export class NatsukiPreview {
+    public static currentPanel: NatsukiPreview | undefined;
+    private readonly _panel: vscode.WebviewPanel;
+    private _disposables: vscode.Disposable[] = [];
 
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
+        this._panel = panel;
+
+        this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
         this._panel.webview.html = this._getWebviewContent(this._panel.webview, extensionUri);
+
+        this._panel.webview.onDidReceiveMessage((message) => {
+            switch (message.command) {
+                case 'copy_pose':
+                    vscode.env.clipboard.writeText(message.data).then(() => {
+                        vscode.window.showInformationMessage('Pose copied!');
+                    });
+                    break;
+                case 'image_path':
+                    this._panel.webview.postMessage({
+                        command: 'return_image_path',
+                        data: this._panel.webview
+                            .asWebviewUri(
+                                vscode.Uri.file(
+                                    vscode.workspace.getConfiguration('vscode-mpt').workingMPTPath + '/natsuki'
+                                )
+                            )
+                            .toString(),
+                    });
+                    break;
+            }
+        });
     }
+
     public static render(context: vscode.ExtensionContext) {
         const { extensionUri } = context;
 
@@ -15,7 +42,7 @@ export class NatsukiPreview extends DokiPreview {
         } else {
             const panel = vscode.window.createWebviewPanel(
                 'natsuki-preview',
-                'Previewing: Natsuki',
+                'Previewing: natsuki',
                 vscode.ViewColumn.Two,
                 {
                     enableScripts: true,
@@ -26,15 +53,32 @@ export class NatsukiPreview extends DokiPreview {
         }
     }
 
-    private _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri) {
-        const uriParser = this.createUriResolver(webview);
+    public dispose() {
+        NatsukiPreview.currentPanel = undefined;
+        this._panel.dispose();
 
-        const codiconsUri = uriParser(`${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`);
-        const elementsUri = uriParser(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`);
-        const stylesUri = uriParser(`${extensionUri}/src/styles/previewer.css`);
-        const stateUri = uriParser(`${extensionUri}/src/scripts/natsuki/state.js`);
-        const handlerUri = uriParser(`${extensionUri}/src/scripts/natsuki/handler.js`);
-        const srcUri = uriParser(`${extensionUri}/src/`);
+        while (this._disposables.length) {
+            const disposable = this._disposables.pop();
+            if (disposable) {
+                disposable.dispose();
+            }
+        }
+    }
+
+    private _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri) {
+        const codiconsUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`)
+        );
+        const elementsUri = webview.asWebviewUri(
+            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`)
+        );
+
+        const stylesUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/styles/previewer.css`));
+
+        const stateUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/scripts/natsuki/state.js`));
+        const handlerUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/scripts/natsuki/handler.js`));
+
+        const srcUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}`));
 
         return /*html*/ `
         <!DOCTYPE html>

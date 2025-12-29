@@ -1,5 +1,5 @@
 const vscode = acquireVsCodeApi();
-window.ASSET_URI = await getAssetUri() + '/sayori';
+window.ASSET_URI = await getAssetUri();
 
 function getAssetUri() {
     vscode.postMessage({ command: 'image_path' });

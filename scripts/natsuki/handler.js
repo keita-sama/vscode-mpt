@@ -1,5 +1,5 @@
 const vscode = acquireVsCodeApi();
-window.ASSET_URI = await getAssetUri() + '/natsuki';
+window.ASSET_URI = (await getAssetUri());
 
 function getAssetUri() {
     vscode.postMessage({ command: 'image_path' });
@@ -24,10 +24,7 @@ const faceButtonContainer = document.getElementById('face-wrapper');
 function updateAttributeLabel(group, section) {
     const label = document.getElementById(`label-${group}`);
 
-    console.log(
-        natsuki.getFaceAttribute(group),
-        natsuki.getPoseAttribute(group)
-    );
+    console.log(natsuki.getFaceAttribute(group), natsuki.getPoseAttribute(group));
 
     switch (section) {
         case 'face':
@@ -51,6 +48,7 @@ natsuki.faces.forEach((face) => {
     faceButton.onclick = () => {
         natsuki.changeFace(face);
         createFaceAttributeOptions();
+        createSyntax();
         renderCharacter();
     };
 
@@ -69,6 +67,7 @@ natsuki.poses.forEach((pose) => {
     poseButton.onclick = () => {
         natsuki.changePose(pose);
         createPoseAttributeOptions();
+        createSyntax();
         renderCharacter();
     };
 
@@ -78,9 +77,7 @@ natsuki.poses.forEach((pose) => {
 // 3. Generate Face Attributes based on face;
 
 function createFaceAttributeOptions() {
-    const faceAttributeContainer = document.getElementById(
-        'face-attribute-wrapper'
-    );
+    const faceAttributeContainer = document.getElementById('face-attribute-wrapper');
 
     faceAttributeContainer.innerHTML = '';
 
@@ -106,12 +103,14 @@ function createFaceAttributeOptions() {
         rightButton.onclick = () => {
             natsuki.cycleNextFaceAttribute(group);
             updateAttributeLabel(group, 'face');
+            createSyntax();
             renderCharacter();
         };
 
         leftButton.onclick = () => {
             natsuki.cyclePrevFaceAttribute(group);
             updateAttributeLabel(group, 'face');
+            createSyntax();
             renderCharacter();
         };
 
@@ -147,9 +146,7 @@ createFaceAttributeOptions();
 // 4. Generate Pose Attributes based on Pose
 
 function createPoseAttributeOptions() {
-    const poseAttributeContainer = document.getElementById(
-        'pose-attribute-wrapper'
-    );
+    const poseAttributeContainer = document.getElementById('pose-attribute-wrapper');
 
     poseAttributeContainer.innerHTML = '';
 
@@ -174,12 +171,14 @@ function createPoseAttributeOptions() {
         rightButton.onclick = () => {
             natsuki.cycleNextPoseAttribute(group);
             updateAttributeLabel(group, 'pose');
+            createSyntax();
             renderCharacter();
         };
 
         leftButton.onclick = () => {
             natsuki.cyclePrevPoseAttribute(group);
             updateAttributeLabel(group, 'pose');
+            createSyntax();
             renderCharacter();
         };
 
@@ -242,7 +241,7 @@ function renderCharacter() {
     // a. Render her face
 
     const crossed = natsuki.pose === 'cross';
-    
+
     if (natsuki.face !== 'fta') {
         const faceName = natsuki.face === 'ff' ? 'face_forward' : 'face_sad';
 
@@ -262,9 +261,7 @@ function renderCharacter() {
         addAttribute(`turned_${outfit}_right_${armMap[right]}`);
         addAttribute(`turned_${outfit}_left_${armMap[left]}`);
     } else if (natsuki.pose === 'cross') {
-        addAttribute(
-            `crossed(${natsuki.face === 'fta' ? 'fs' : natsuki.face})_${outfit}`
-        );
+        addAttribute(`crossed(${natsuki.face === 'fta' ? 'fs' : natsuki.face})_${outfit}`);
     }
 
     body.innerHTML = '';
@@ -276,3 +273,43 @@ function renderCharacter() {
 renderCharacter();
 
 // 6. Generate the Syntax
+
+function createSyntax() {
+    let syntax = ['natsuki'];
+
+    syntax.push(natsuki.pose);
+    syntax.push(natsuki.face);
+    syntax.push(natsuki.poseState.outfit);
+
+    if (natsuki.pose === 'turned') {
+        syntax.push(natsuki.poseState.left);
+        syntax.push(natsuki.poseState.right);
+    }
+
+    if (natsuki.face !== 'fta') {
+        syntax.push(natsuki.faceState.eyes);
+        syntax.push(natsuki.faceState.mouth);
+        syntax.push(natsuki.faceState.eyebrows);
+        syntax.push(natsuki.faceState.nose);
+    }
+
+    document.getElementById('syntax').innerHTML = syntax.filter((x) => x).join(' ');
+}
+
+createSyntax();
+
+// 7. Additional Functionalities
+
+// a. Copy Syntax
+
+function copySyntax() {
+    const syntax = document.getElementById('syntax').innerHTML;
+
+    vscode.postMessage({
+        command: 'copy_pose',
+        data: syntax,
+    });
+}
+
+const copyButton = document.getElementById('copy-syntax');
+copyButton.onclick = copySyntax;
