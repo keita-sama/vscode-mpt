@@ -34,6 +34,10 @@
             {
                 "command": "vscode-mpt.preview-natsuki",
                 "title": "Start Previewing: Natsuki"
+            },
+            {
+                "command": "vscode-mpt.preview-monika",
+                "title": "Start Previewing: Monika"
             }
         ]
     },
@@ -57,7 +61,7 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "@vscode-elements/elements": "^1.16.1",
-        "@vscode/codicons": "^0.0.36"
+        "@vscode-elements/elements": "^2.4.0",
+        "@vscode/codicons": "^0.0.44"
     }
 }

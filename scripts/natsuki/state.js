@@ -1,5 +1,5 @@
 /*
-    NOTE: 'extentionUri' is defined in the script of the panel.
+    NOTE: 'extensionUri' is defined in the script of the panel.
 */
 
 const natsukiProperties = await fetch(`${extensionUri}/data/natsuki.json`).then((res) => res.json());

@@ -2,24 +2,23 @@
     NOTE: 'extensionUri' is defined in the script of the panel.
 */
 
+const monikaProperties = await fetch(`${extensionUri}/data/monika.json`).then((res) => res.json());
 
-const sayoriProperties = await fetch(`${extensionUri}/data/sayori.json`).then((res) => res.json());
-
-export class SayoriState {
+export class MonikaState {
     constructor() {
         // NOTE: Not sure if i ever need to change this.
-        this.poses = ['turned', 'tap'];
+        this.poses = ['forward', 'lean'];
         this.pose = '';
         this.poseItems = {};
         this.state = {};
         this.stateIndex = {};
 
-        this.changePose('turned');
+        this.changePose('forward');
     }
 
     changePose(pose) {
         this.pose = pose;
-        this.poseItems = sayoriProperties[pose];
+        this.poseItems = monikaProperties[pose];
         this.state = {};
 
         Object.keys(this.poseItems).forEach((group) => {
@@ -31,13 +30,13 @@ export class SayoriState {
     cycleNextAttribute(group) {
         const groupIndex = this.stateIndex[group];
         const assetLength = this.poseItems[group].length - 1;
-        
+
         if (groupIndex !== assetLength) {
             this.stateIndex[group]++;
         }
         this.updateGroup(group);
 
-        return (this.stateIndex[group] === assetLength);
+        return this.stateIndex[group] === assetLength;
     }
     cyclePrevAttribute(group) {
         const groupIndex = this.stateIndex[group];
@@ -48,7 +47,7 @@ export class SayoriState {
 
         this.updateGroup(group);
 
-        return (this.stateIndex[group] === 0);
+        return this.stateIndex[group] === 0;
     }
     updateGroup(group) {
         this.state[group] = this.poseItems[group][this.stateIndex[group]];

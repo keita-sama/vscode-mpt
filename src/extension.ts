@@ -6,7 +6,7 @@ import fs from 'fs';
 
 import { SayoriPreview } from './panels/SayoriPreview';
 import { NatsukiPreview } from './panels/NatsukiPreview';
-
+import { MonikaPreview } from './panels/MonikaPreview';
 export function activate(context: vscode.ExtensionContext) {
     let foundMPTInstallation = false;
     let mptInstallationPath = '';
@@ -42,26 +42,21 @@ export function activate(context: vscode.ExtensionContext) {
 
     // 4. Notify user that we've found their installation (or not.)
     vscode.window.showInformationMessage(
-        foundMPTInstallation
-            ? 'MPT installation found!'
-            : 'MPT installation not found.'
+        foundMPTInstallation ? 'MPT installation found!' : 'MPT installation not found.'
     );
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
-    const sayori = vscode.commands.registerCommand(
-        'vscode-mpt.preview-sayori',
-        () => SayoriPreview.render(context)
-    );
+    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreview.render(context));
 
-    const natsuki = vscode.commands.registerCommand(
-        'vscode-mpt.preview-natsuki',
-        () => NatsukiPreview.render(context)
-    );
+    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreview.render(context));
+
+    const monika = vscode.commands.registerCommand('vscode-mpt.preview-monika', () => MonikaPreview.render(context));
 
     context.subscriptions.push(sayori);
     context.subscriptions.push(natsuki);
+    context.subscriptions.push(monika);
 }
 
 // This method is called when your extension is deactivated
