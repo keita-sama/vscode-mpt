@@ -7,6 +7,7 @@ import fs from 'fs';
 import { SayoriPreview } from './panels/SayoriPreview';
 import { NatsukiPreview } from './panels/NatsukiPreview';
 import { MonikaPreview } from './panels/MonikaPreview';
+import { YuriPreview } from './panels/YuriPreview';
 export function activate(context: vscode.ExtensionContext) {
     let foundMPTInstallation = false;
     let mptInstallationPath = '';
@@ -54,9 +55,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     const monika = vscode.commands.registerCommand('vscode-mpt.preview-monika', () => MonikaPreview.render(context));
 
+    
+    const yuri = vscode.commands.registerCommand('vscode-mpt.preview-yuri', () => YuriPreview.render(context));
+
     context.subscriptions.push(sayori);
     context.subscriptions.push(natsuki);
     context.subscriptions.push(monika);
+    context.subscriptions.push(yuri);
 }
 
 // This method is called when your extension is deactivated

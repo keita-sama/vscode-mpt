@@ -38,6 +38,10 @@
             {
                 "command": "vscode-mpt.preview-monika",
                 "title": "Start Previewing: Monika"
+            },
+            {
+                "command": "vscode-mpt.preview-yuri",
+                "title": "Start Previewing: Yuri"
             }
         ]
     },

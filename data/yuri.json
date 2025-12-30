@@ -1,7 +1,7 @@
 {
-    "tap": {
+    "shy": {
         "outfit": ["uniform", "casual"],
-        "blush": ["nobl", "awkw", "blus", "blaw"],
+        "nose": ["n1", "n2", "n3", "n4", "n5"],
         "mouth": ["m1", "m2", "m3", "m4"],
         "eyes": ["e1", "e2", "e3", "e4", "e5", "e6"],
         "eyebrows": ["b1", "b2", "b3"]
@@ -9,8 +9,8 @@
     "turned": {
         "outfit": ["uniform", "casual"],
         "left": ["lup", "ldown"],
-        "right": ["rup", "rdown"],
-        "nose": ["nobl", "awkw", "blus", "blaw"],
+        "right": ["rup", "rdown", "rcut"],
+        "nose": ["n1", "n2", "n3", "n4"],
         "mouth": [
             "ma",
             "mb",
@@ -52,21 +52,10 @@
             "e4d",
             "e4e",
             "e0a",
-            "e0b"
+            "e0b",
+            "ela",
+            "elb"
         ],
-        "eyebrows": [
-            "b1a",
-            "b1b",
-            "b1c",
-            "b1d",
-            "b1e",
-            "b1f",
-            "b2a",
-            "b2b",
-            "b2c",
-            "b3a",
-            "b3b",
-            "b3c"
-        ]
+        "eyebrows": ["b1a", "b1b", "b1c", "b1d", "b1e", "b1f", "b2a", "b2b", "b2c", "b3a", "b3b", "b3c"]
     }
 }
