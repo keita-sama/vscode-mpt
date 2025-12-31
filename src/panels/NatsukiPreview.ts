@@ -50,7 +50,7 @@ export class NatsukiPreview {
                 }
             );
 
-            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'preview.svg'));
+            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'preview.svg'));
 
             NatsukiPreview.currentPanel = new NatsukiPreview(panel, extensionUri);
         }

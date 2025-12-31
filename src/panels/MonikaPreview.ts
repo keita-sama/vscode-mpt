@@ -50,7 +50,7 @@ export class MonikaPreview {
                 }
             );
 
-            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'assets', 'preview.svg'));
+            panel.iconPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'preview.svg'));
 
             MonikaPreview.currentPanel = new MonikaPreview(panel, extensionUri);
         }

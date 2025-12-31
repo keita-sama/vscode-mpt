@@ -15,6 +15,6 @@ fs.rmSync('dist', { recursive: true, force: true });
 
 // fs.mkdirSync('dist');
 
-['data', 'scripts', 'styles'].forEach((folder) => {
+['data', 'scripts', 'styles', 'media'].forEach((folder) => {
     fs.cpSync(`${folder}`, `dist/${folder}`, { recursive: true });
 });
