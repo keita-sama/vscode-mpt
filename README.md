@@ -10,6 +10,12 @@ Webview-based previewer for DDLC characters based on the Mood Pose Tool syntax â
 - Realtime pose & expression previewing
 - Uses your projects local installation (space-friendly and fast!)
 
+## Usage
+To open a preview window:
+
+1. Press `Ctrl + Shift + P` or whatever keybind to bring up the command palette. 
+2. From here, search for `Start Previewing` or a Doki's name to have the option appear. 
+3. Simply press enter and it will open a window to the right side of your editor.
 ## Current Limitations
 There are numerous limitations with the project due to the static nature of its structure.
 
