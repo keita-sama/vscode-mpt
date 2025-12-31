@@ -4,6 +4,7 @@
     "publisher": "keita-sama",
     "description": "Tool for DDLC modders that use MPT",
     "version": "1.0.0-alpha",
+    "icon": "media/logo.png",
     "repository": {
         "type": "git",
         "url": "https://github.com/keita-sama/vscode-mpt.git"
