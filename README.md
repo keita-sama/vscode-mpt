@@ -24,7 +24,7 @@ There are numerous limitations with the project due to the static nature of its 
 
 
 ## Planned Features
-These are not gauranteed by any means, but are taken into consideration as I develop the project further.
+These are not guaranteed by any means, but are taken into consideration as I develop the project further.
 
 - Background support
 - LayeredImage parsing
