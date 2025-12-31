@@ -3,7 +3,7 @@
     "displayName": "vscode-mpt",
     "publisher": "keita-sama",
     "description": "Tool for DDLC modders that use MPT",
-    "version": "0.0.1",
+    "version": "1.0.0-alpha",
     "engines": {
         "vscode": "^1.99.0"
     },
