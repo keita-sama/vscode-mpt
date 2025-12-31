@@ -14,13 +14,14 @@ function getAssetUri() {
 }
 
 const getAsset = (asset) => `${window.ASSET_URI}/monika_${asset}.png`;
-const createImg = (path) => {
+
+// cheap workaround for compatibility
+const createImg = (path, hidden=false) => {
     const img = document.createElement('img');
     img.src = getAsset(path);
-
+    if (hidden) img.style = 'visibility: hidden';
     return img;
 };
-
 import { MonikaState } from './state.js';
 
 const monika = new MonikaState();
@@ -135,7 +136,7 @@ function renderCharacter() {
         rdown: 'down',
         ldown: 'down',
         rhip: 'hip',
-        lpoint: 'down',
+        lpoint: 'point',
     };
 
 
@@ -148,10 +149,10 @@ function renderCharacter() {
         items.push(createImg(`lean_${outfit}_bodybase`));
         items.push(createImg(`lean_${outfit}_facebase`));
         // console.log(noseMap[nose], nose);
-        items.push(createImg(`lean_nose_${nose}`));
         items.push(createImg(`lean_mouth_${mouth}`));
-        items.push(createImg(`lean_eyes_${eyes}`));
-        items.push(createImg(`lean_eyebrows_${eyebrows}`));
+        items.push(createImg(`lean_nose_${nose}`));
+        items.push(createImg(`lean_eyes_${eyes}`, nose === 'n5'));
+        items.push(createImg(`lean_eyebrows_${eyebrows}`, nose === 'n5'));
     } else if (monika.pose === 'forward') {
         const { left, right } = monika.state;
 
@@ -160,8 +161,8 @@ function renderCharacter() {
         items.push(createImg(`forward_${outfit}_left_${armMap[left]}`));
         items.push(createImg(`forward_${outfit}_right_${armMap[right]}`));
 
-        items.push(createImg(`forward_nose_${nose}`));
         items.push(createImg(`forward_mouth_${mouth}`));
+        items.push(createImg(`forward_nose_${nose}`));
         items.push(createImg(`forward_eyes_${eyes}`));
         items.push(createImg(`forward_eyebrows_${eyebrows}`));
     }
@@ -187,7 +188,7 @@ function createSyntax() {
         syntax.push(monika.state.right); // right arm
     }
 
-    // syntax.push(monika.state[monika.pose === 'tap' ? 'blush' : 'nose']); // nose
+    syntax.push(monika.state.nose); // mouth
     syntax.push(monika.state.mouth); // mouth
     syntax.push(monika.state.eyes); // eyes
     syntax.push(monika.state.eyebrows); // eyebrows
@@ -208,6 +209,3 @@ function copySyntax() {
         data: syntax,
     });
 }
-
-const copyButton = document.getElementById('copy-syntax');
-copyButton.onclick = copySyntax;

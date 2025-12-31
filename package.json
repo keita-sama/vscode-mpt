@@ -46,7 +46,7 @@
         ]
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile && node prepackage.js",
+        "vscode:prepublish": "node prepackage.js && npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "pretest": "npm run compile && npm run lint",

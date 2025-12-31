@@ -9,7 +9,7 @@
     "turned": {
         "outfit": ["uniform", "casual"],
         "left": ["lup", "ldown"],
-        "right": ["rup", "rdown", "rcut"],
+        "right": ["rup", "rdown"],
         "nose": ["n1", "n2", "n3", "n4"],
         "mouth": [
             "ma",

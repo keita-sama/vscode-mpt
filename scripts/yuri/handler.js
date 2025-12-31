@@ -14,10 +14,11 @@ function getAssetUri() {
 }
 
 const getAsset = (asset) => `${window.ASSET_URI}/yuri_${asset}.png`;
-const createImg = (path) => {
+// cheap workaround for compatibility
+const createImg = (path, hidden=false) => {
     const img = document.createElement('img');
     img.src = getAsset(path);
-
+    if (hidden) img.style = 'visibility: hidden';
     return img;
 };
 
@@ -62,6 +63,9 @@ function createAttributeOptions() {
     attributeOptionContainer.innerHTML = '';
 
     for (const [group, _attributes] of Object.entries(yuri.poseItems)) {
+
+        // give yuri's arm cut for turned pose (only right is needed for the check technically)
+
         const optionContainer = document.createElement('div');
 
         const leftButton = document.createElement('vscode-button');
@@ -147,11 +151,10 @@ function renderCharacter() {
     if (yuri.pose === 'shy') {
         items.push(createImg(`shy_${outfit}_bodybase`));
         items.push(createImg('shy_facebase'));
-        // console.log(noseMap[nose], nose);
-        items.push(createImg(`shy_nose_${nose}`)); // CREATE CONSISTENCY <-- REMOVE BLUSH, MAKE IT "NOSE"
+        items.push(createImg(`shy_nose_${nose}`)); 
         items.push(createImg(`shy_mouth_${mouth}`));
-        items.push(createImg(`shy_eyes_${eyes}`));
-        items.push(createImg(`shy_eyebrows_${eyebrows}`));
+        items.push(createImg(`shy_eyes_${eyes}`, nose === 'n5'));
+        items.push(createImg(`shy_eyebrows_${eyebrows}`, nose === 'n5'));
     } else if (yuri.pose === 'turned') {
         const { left, right } = yuri.state;
 
@@ -160,14 +163,15 @@ function renderCharacter() {
 
         items.push(createImg('turned_facebase'));
 
-        items.push(createImg(`turned_${outfit}_left_${armMap[left]}`));
-        if (outfit === 'casual' && right === 'rcut') {
-            yuri.cyclePrevAttribute('right');            
-            items.push(createImg(`turned_${outfit}_right_${armMap[yuri.state.right]}`));
-        } else {
+        // draw left first if both up, otherwise right first to preventing clipping
+        if (left === 'lup' && ['rup', 'rcut'].includes(right)) {
+            items.push(createImg(`turned_${outfit}_left_${armMap[left]}`));
             items.push(createImg(`turned_${outfit}_right_${armMap[right]}`));
         }
-
+        else {
+            items.push(createImg(`turned_${outfit}_right_${armMap[right]}`));
+            items.push(createImg(`turned_${outfit}_left_${armMap[left]}`));
+        }
         items.push(createImg(`turned_nose_${nose}`));
         items.push(createImg(`turned_mouth_${mouth}`));
         items.push(createImg(`turned_eyes_${eyes}`));
@@ -195,7 +199,7 @@ function createSyntax() {
         syntax.push(yuri.state.right); // right arm
     }
 
-    syntax.push(yuri.state[yuri.pose === 'tap' ? 'blush' : 'nose']); // nose
+    syntax.push(yuri.state.nose); // nose
     syntax.push(yuri.state.mouth); // mouth
     syntax.push(yuri.state.eyes); // eyes
     syntax.push(yuri.state.eyebrows); // eyebrows
@@ -219,3 +223,4 @@ function copySyntax() {
 
 const copyButton = document.getElementById('copy-syntax');
 copyButton.onclick = copySyntax;
+

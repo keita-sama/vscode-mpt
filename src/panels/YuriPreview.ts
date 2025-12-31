@@ -114,7 +114,9 @@ export class YuriPreview {
             </div>
 
             <script src="${stateUri}" type='module'></script>
-            <script src="${handlerUri}" type='module'></script>
+            <script src="${handlerUri}" type='module'></script> 
+            <!-- <vscode-button class='reset' icon='debug-restart' secondary></vscode-button> -->
+
         </body>
         </html>
         `;

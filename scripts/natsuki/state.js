@@ -29,7 +29,13 @@ export class NatsukiState {
         this.poseState = {};
 
         Object.keys(this.poseItems).forEach((group) => {
+            const outfit = this.poseStateIndex.outfit;
+
             this.poseStateIndex[group] = 0;
+            
+            if (outfit) {
+                this.poseStateIndex.outfit = outfit;
+            }
 
             this.updatePoseGroup(group);
         });

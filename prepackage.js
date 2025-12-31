@@ -11,6 +11,10 @@ I will most likely fix this in a later iteration.
 
 const fs = require('node:fs');
 
+fs.rmSync('dist', { recursive: true, force: true });
+
+// fs.mkdirSync('dist');
+
 ['data', 'scripts', 'styles'].forEach((folder) => {
     fs.cpSync(`${folder}`, `dist/${folder}`, { recursive: true });
 });

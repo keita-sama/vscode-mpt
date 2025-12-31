@@ -217,3 +217,4 @@ function copySyntax() {
 
 const copyButton = document.getElementById('copy-syntax');
 copyButton.onclick = copySyntax;
+

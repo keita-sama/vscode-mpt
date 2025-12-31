@@ -22,7 +22,13 @@ export class YuriState {
         this.state = {};
 
         Object.keys(this.poseItems).forEach((group) => {
+            const outfit = this.stateIndex.outfit;
+
             this.stateIndex[group] = 0;
+            
+            if (outfit) {
+                this.stateIndex.outfit = outfit;
+            }
 
             this.updateGroup(group);
         });
