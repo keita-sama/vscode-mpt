@@ -1,9 +1,11 @@
 # vscode-mpt
 
-> This project is still heavily under development and my be subject to major changes.
-
 Webview-based previewer for DDLC characters based on the Mood Pose Tool syntax — right in your code editor.
 
+> This project is still heavily under development and my be subject to major changes.
+
+
+<img src='./assets/preview.gif'></img>
 ## Features
 - Realtime pose & expression previewing
 - Uses your projects local installation (space-friendly and fast!)
