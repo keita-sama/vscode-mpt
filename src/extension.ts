@@ -8,10 +8,12 @@ import { SayoriPreview } from './panels/SayoriPreview';
 import { NatsukiPreview } from './panels/NatsukiPreview';
 import { MonikaPreview } from './panels/MonikaPreview';
 import { YuriPreview } from './panels/YuriPreview';
-export function activate(context: vscode.ExtensionContext) {
+
+function findMPTDirectory() {
     let foundMPTInstallation = false;
     let mptInstallationPath = '';
     let rootFolder = vscode.workspace.workspaceFolders?.at(0)?.uri.fsPath;
+
     if (rootFolder) {
         // 0. Check if the user isn't in their project folder
         console.log('Checking if user is in project folder...');
@@ -45,19 +47,23 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage(
         foundMPTInstallation ? 'MPT installation found!' : 'MPT installation not found.'
     );
+}
 
+export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
+    findMPTDirectory();
+
     const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreview.render(context));
 
     const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreview.render(context));
 
     const monika = vscode.commands.registerCommand('vscode-mpt.preview-monika', () => MonikaPreview.render(context));
 
-    
     const yuri = vscode.commands.registerCommand('vscode-mpt.preview-yuri', () => YuriPreview.render(context));
 
+    const findMPTDir = vscode.commands.registerCommand('vscode-mpt.find-directory', findMPTDirectory);
     context.subscriptions.push(sayori);
     context.subscriptions.push(natsuki);
     context.subscriptions.push(monika);

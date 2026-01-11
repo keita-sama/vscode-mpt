@@ -34,19 +34,23 @@
         "commands": [
             {
                 "command": "vscode-mpt.preview-sayori",
-                "title": "Start Previewing: Sayori"
+                "title": "Previewer: Preview - Sayori"
             },
             {
                 "command": "vscode-mpt.preview-natsuki",
-                "title": "Start Previewing: Natsuki"
+                "title": "Previewer: Preview - Natsuki"
             },
             {
                 "command": "vscode-mpt.preview-monika",
-                "title": "Start Previewing: Monika"
+                "title": "Previewer: Preview - Monika"
             },
             {
                 "command": "vscode-mpt.preview-yuri",
-                "title": "Start Previewing: Yuri"
+                "title": "Previewer: Preview - Yuri"
+            },
+            {
+                "command": "vscode-mpt.find-directory",
+                "title": "Previewer: Find MPT Installation."
             }
         ]
     },
