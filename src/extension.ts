@@ -8,9 +8,11 @@ import { SayoriPreview } from './panels/SayoriPreview';
 import { NatsukiPreview } from './panels/NatsukiPreview';
 import { MonikaPreview } from './panels/MonikaPreview';
 import { YuriPreview } from './panels/YuriPreview';
+import { ModuleKind } from 'typescript';
+
+let foundMPTInstallation = false;
 
 function findMPTDirectory() {
-    let foundMPTInstallation = false;
     let mptInstallationPath = '';
     let rootFolder = vscode.workspace.workspaceFolders?.at(0)?.uri.fsPath;
 
@@ -49,19 +51,26 @@ function findMPTDirectory() {
     );
 }
 
+type DokiPreview = typeof SayoriPreview | typeof MonikaPreview | typeof YuriPreview | typeof NatsukiPreview;
+
 export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
+    function renderOrNot(dokiPreview: DokiPreview) {
+        if (!foundMPTInstallation) {
+            vscode.window.showWarningMessage('There is no detected MPT installation!');
+            return;
+        }
+        dokiPreview.render(context);
+    }
+    
     findMPTDirectory();
 
-    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => SayoriPreview.render(context));
-
-    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => NatsukiPreview.render(context));
-
-    const monika = vscode.commands.registerCommand('vscode-mpt.preview-monika', () => MonikaPreview.render(context));
-
-    const yuri = vscode.commands.registerCommand('vscode-mpt.preview-yuri', () => YuriPreview.render(context));
+    const sayori = vscode.commands.registerCommand('vscode-mpt.preview-sayori', () => renderOrNot(SayoriPreview));
+    const natsuki = vscode.commands.registerCommand('vscode-mpt.preview-natsuki', () => renderOrNot(NatsukiPreview));
+    const monika = vscode.commands.registerCommand('vscode-mpt.preview-monika', () => renderOrNot(MonikaPreview));
+    const yuri = vscode.commands.registerCommand('vscode-mpt.preview-yuri', () => renderOrNot(YuriPreview));
 
     const findMPTDir = vscode.commands.registerCommand('vscode-mpt.find-directory', findMPTDirectory);
     context.subscriptions.push(sayori);
