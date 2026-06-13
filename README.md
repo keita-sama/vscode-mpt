@@ -10,7 +10,7 @@ Webview-based previewer for DDLC characters based on the Mood Pose Tool syntax â
 - Uses your projects local installation (space-friendly and fast!)
 
 ## Prerequisites
-Besides having a working [MPT](https://github.com/chronoshag/DDLCMPT) installation, please make *ABSOLUTELY* sure your file strucuture follows something like this:
+Besides having a working [MPT](https://github.com/chronoshag/DDLCMPT) installation, please make *ABSOLUTELY* sure your file structure follows something like this:
 
 ```
 YourDokiDokiMod/
