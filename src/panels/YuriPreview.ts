@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import path from 'path';
+import { messageHandler } from '../MessageHandler';
 
 export class YuriPreview {
     public static currentPanel: YuriPreview | undefined;
@@ -12,27 +13,7 @@ export class YuriPreview {
         this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
         this._panel.webview.html = this._getWebviewContent(this._panel.webview, extensionUri);
 
-        this._panel.webview.onDidReceiveMessage((message) => {
-            switch (message.command) {
-                case 'copy_pose':
-                    vscode.env.clipboard.writeText(message.data).then(() => {
-                        vscode.window.showInformationMessage('Pose copied!');
-                    });
-                    break;
-                case 'image_path':
-                    this._panel.webview.postMessage({
-                        command: 'return_image_path',
-                        data: this._panel.webview
-                            .asWebviewUri(
-                                vscode.Uri.file(
-                                    vscode.workspace.getConfiguration('vscode-mpt').workingMPTPath + '/yuri'
-                                )
-                            )
-                            .toString(),
-                    });
-                    break;
-            }
-        });
+        messageHandler(this._panel).for('yuri');
     }
 
     public static render(context: vscode.ExtensionContext) {
@@ -65,10 +46,10 @@ export class YuriPreview {
 
     private _getWebviewContent(webview: vscode.Webview, extensionUri: vscode.Uri) {
         const codiconsUri = webview.asWebviewUri(
-            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`)
+            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode/codicons/dist/codicon.css`),
         );
         const elementsUri = webview.asWebviewUri(
-            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`)
+            vscode.Uri.parse(`${extensionUri}/node_modules/@vscode-elements/elements/dist/bundled.js`),
         );
 
         const stylesUri = webview.asWebviewUri(vscode.Uri.parse(`${extensionUri}/styles/previewer.css`));
